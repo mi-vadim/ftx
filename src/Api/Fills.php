@@ -11,6 +11,16 @@ class Fills extends HttpApi
 {
     use TransformsTimestamps;
 
+    /**
+     * Fills
+     *
+     * @param string|null $market
+     * @param DateTimeInterface|null $start_time
+     * @param DateTimeInterface|null $end_time
+     * @param string|null $order
+     * @param int|null $orderId
+     * @return mixed
+     */
     public function all(
         ?string $market = null,
         ?DateTimeInterface $start_time = null,

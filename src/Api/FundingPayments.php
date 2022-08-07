@@ -10,6 +10,14 @@ class FundingPayments extends HttpApi
 {
     use TransformsTimestamps;
 
+    /**
+     * Funding Payments
+     *
+     * @param string|null $future
+     * @param \DateTimeInterface|null $start_time
+     * @param \DateTimeInterface|null $end_time
+     * @return mixed
+     */
     public function all(?string $future = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null)
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
