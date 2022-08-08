@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Api;
 
-use FTX\Dictionaries\Subaccounts as SubaccountsDictionary;
+use FTX\Dictionaries\Endpoint;
 
 class Subaccounts extends HttpApi
 {
@@ -14,7 +14,7 @@ class Subaccounts extends HttpApi
      */
     public function all()
     {
-        return $this->respond($this->http->get(SubaccountsDictionary::SUBACCOUNTS_URI));
+        return $this->respond($this->get(Endpoint::SUBACCOUNTS->value));
     }
 
     /**
@@ -25,7 +25,7 @@ class Subaccounts extends HttpApi
      */
     public function create(string $nickname)
     {
-        return $this->respond($this->http->post(SubaccountsDictionary::SUBACCOUNTS_URI, null, compact('nickname')));
+        return $this->respond($this->post(Endpoint::SUBACCOUNTS->value, null, compact('nickname')));
     }
 
     /**
@@ -37,7 +37,7 @@ class Subaccounts extends HttpApi
      */
     public function rename(string $nickname, string $newNickname)
     {
-        return $this->respond($this->http->post(SubaccountsDictionary::SUBACCOUNTS_UPDATE_NAME_URI, null, compact('nickname', 'newNickname')));
+        return $this->respond($this->post(Endpoint::SUBACCOUNTS_UPDATE_NAME->value, null, compact('nickname', 'newNickname')));
     }
 
     /**
@@ -46,9 +46,9 @@ class Subaccounts extends HttpApi
      * @param string $nickname
      * @return mixed
      */
-    public function delete(string $nickname)
+    public function remove(string $nickname)
     {
-        return $this->respond($this->http->delete(SubaccountsDictionary::SUBACCOUNTS_URI, null, compact('nickname')));
+        return $this->respond($this->delete(Endpoint::SUBACCOUNTS->value, null, compact('nickname')));
     }
 
     /**
@@ -59,7 +59,7 @@ class Subaccounts extends HttpApi
      */
     public function balances(string $nickname)
     {
-        return $this->respond($this->http->get(SubaccountsDictionary::SUBACCOUNTS_URI.'/'.$nickname.'/balances'));
+        return $this->respond($this->get(Endpoint::SUBACCOUNTS->withID($nickname) . '/balances'));
     }
 
     /**
@@ -73,6 +73,6 @@ class Subaccounts extends HttpApi
      */
     public function transfer(string $coin, float $size, ?string $source = null, ?string $destination = null)
     {
-        return $this->respond($this->http->post(SubaccountsDictionary::SUBACCOUNTS_TRANSFER_URI, null, compact('coin', 'size', 'source', 'destination')));
+        return $this->respond($this->post(Endpoint::SUBACCOUNTS_TRANSFER->value, null, compact('coin', 'size', 'source', 'destination')));
     }
 }

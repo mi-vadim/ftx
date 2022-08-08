@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Api;
 
-use FTX\Dictionaries\Markets as MarketsDictionary;
+use FTX\Dictionaries\Endpoint;
 use FTX\Api\Traits\TransformsTimestamps;
 
 class Markets extends HttpApi
@@ -17,7 +17,7 @@ class Markets extends HttpApi
      */
     public function all()
     {
-        return $this->respond($this->http->get(MarketsDictionary::MARKETS_URI));
+        return $this->respond($this->get(Endpoint::MARKETS->value));
     }
 
     /**
@@ -26,9 +26,9 @@ class Markets extends HttpApi
      * @param string $market
      * @return mixed
      */
-    public function get(string $market)
+    public function market(string $market)
     {
-        return $this->respond($this->http->get(MarketsDictionary::MARKETS_URI.'/'.$market));
+        return $this->respond($this->get(Endpoint::MARKETS->withID($market)));
     }
 
     /**
@@ -40,7 +40,7 @@ class Markets extends HttpApi
      */
     public function orderbook(string $market, int $depth = null)
     {
-        return $this->respond($this->http->get(MarketsDictionary::MARKETS_URI.'/'.$market.'/orderbook', compact('depth')));
+        return $this->respond($this->get(Endpoint::MARKETS->withID($market) . '/orderbook', compact('depth')));
     }
 
     /**
@@ -56,7 +56,7 @@ class Markets extends HttpApi
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
 
-        return $this->respond($this->http->get(MarketsDictionary::MARKETS_URI.'/'.$market.'/trades', compact('limit', 'start_time', 'end_time')));
+        return $this->respond($this->get(Endpoint::MARKETS->withID($market) . '/trades', compact('limit', 'start_time', 'end_time')));
     }
 
     /**
@@ -69,11 +69,11 @@ class Markets extends HttpApi
      * @param \DateTimeInterface|null $end_time
      * @return mixed
      */
-    public function candles(string $market, int $resolution, ?int $limit = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null)
+    public function history(string $market, int $resolution, ?int $limit = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null)
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
 
-        return $this->respond($this->http->get(MarketsDictionary::MARKETS_URI.'/'.$market.'/candles', compact('limit', 'resolution', 'start_time', 'end_time')));
+        return $this->respond($this->get(Endpoint::MARKETS->withID($market) . '/candles', compact('limit', 'resolution', 'start_time', 'end_time')));
     }
 
 }

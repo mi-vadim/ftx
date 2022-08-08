@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace FTX\Api;
 
 use FTX\Api\Traits\TransformsTimestamps;
+use FTX\Dictionaries\Endpoint;
 use FTX\Dictionaries\Futures as FuturesDictionary;
 
 class Futures extends HttpApi
@@ -17,7 +18,7 @@ class Futures extends HttpApi
      */
     public function all()
     {
-        return $this->respond($this->http->get(FuturesDictionary::FUTURES_URI));
+        return $this->respond($this->get(Endpoint::FUTURES->value));
     }
 
     /**
@@ -26,9 +27,9 @@ class Futures extends HttpApi
      * @param string $future
      * @return mixed
      */
-    public function get(string $future)
+    public function future(string $future)
     {
-        return $this->respond($this->http->get(FuturesDictionary::FUTURES_URI.'/'.$future));
+        return $this->respond($this->get(Endpoint::FUTURES->withID($future)));
     }
 
     /**
@@ -39,7 +40,7 @@ class Futures extends HttpApi
      */
     public function stats(string $future)
     {
-        return $this->respond($this->http->get(FuturesDictionary::FUTURES_URI.'/'.$future.'/stats'));
+        return $this->respond($this->get(Endpoint::FUTURES->withID($future) . '/stats'));
     }
 
     /**
@@ -54,7 +55,20 @@ class Futures extends HttpApi
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
 
-        return $this->respond($this->http->get(FuturesDictionary::FUNDING_RATES_URI, compact('future', 'start_time', 'end_time')));
+        return $this->respond($this->get(Endpoint::FUNDING_RATES->value, compact('future', 'start_time', 'end_time')));
+    }
+
+    /**
+     * Get index weights
+     *
+     * Note that this only applies to index futures, e.g. ALT/MID/SHIT/EXCH/DRAGON.
+     *
+     * @param string $indexName
+     * @return mixed
+     */
+    public function indexWeight(string $indexName)
+    {
+        return $this->respond($this->get("/indexes/{$indexName}/weights"));
     }
 
     /**
@@ -62,9 +76,9 @@ class Futures extends HttpApi
      *
      * @return mixed
      */
-    public function expired()
+    public function expired(): mixed
     {
-        return $this->respond($this->http->get("/expired_futures"));
+        return $this->respond($this->get(Endpoint::EXPIRED_FUTURES->value));
     }
 
     /**
@@ -80,6 +94,6 @@ class Futures extends HttpApi
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
 
-        return $this->respond($this->http->get("/indexes/{$marketName}/candles?", compact('resolution', 'start_time', 'end_time')));
+        return $this->respond($this->get("/indexes/{$marketName}/candles?", compact('resolution', 'start_time', 'end_time')));
     }
 }

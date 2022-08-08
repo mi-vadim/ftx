@@ -65,7 +65,7 @@ class Wallet extends HttpApi
      *
      * @return mixed
      */
-    public function deposits()
+    public function depositsHistory()
     {
         return $this->respond($this->http->get(WalletDictionary::WALLET_DEPOSITS_URI));
     }
@@ -75,9 +75,25 @@ class Wallet extends HttpApi
      *
      * @return mixed
      */
-    public function withdrawals()
+    public function withdrawalsHistory()
     {
         return $this->respond($this->http->get(WalletDictionary::WALLET_WITHDRAWALS_URI));
+    }
+
+    /**
+     * Request withdrawal
+     *
+     * @param PendingWithdrawalRequest $pendingWithdrawalRequest
+     * @return mixed
+     */
+    public function withdraw(PendingWithdrawalRequest $pendingWithdrawalRequest)
+    {
+        return $this->respond($this->http->post(WalletDictionary::WALLET_WITHDRAWALS_URI, null, $pendingWithdrawalRequest->toArray()));
+    }
+
+    public function createWithdrawalRequest(string $coin, float $size, string $address) : PendingWithdrawalRequest
+    {
+        return new PendingWithdrawalRequest($this, compact('coin', 'size', 'address'));
     }
 
     /**
@@ -102,6 +118,16 @@ class Wallet extends HttpApi
     }
 
     /**
+     * Create saved addresses
+     *
+     * @return void
+     */
+    public function createSavedAddress()
+    {
+        return $this->respond($this->http->post());
+    }
+
+    /**
      * Delete saved addresses
      *
      * @param string $savedAddressId
@@ -112,19 +138,4 @@ class Wallet extends HttpApi
         $this->respond($this->http->delete("/wallet/saved_addresses/{$savedAddressId}"));
     }
 
-    /**
-     * Request withdrawal
-     *
-     * @param PendingWithdrawalRequest $pendingWithdrawalRequest
-     * @return mixed
-     */
-    public function withdraw(PendingWithdrawalRequest $pendingWithdrawalRequest)
-    {
-        return $this->respond($this->http->post(WalletDictionary::WALLET_WITHDRAWALS_URI, null, $pendingWithdrawalRequest->toArray()));
-    }
-
-    public function createWithdrawalRequest(string $coin, float $size, string $address) : PendingWithdrawalRequest
-    {
-        return new PendingWithdrawalRequest($this, compact('coin', 'size', 'address'));
-    }
 }

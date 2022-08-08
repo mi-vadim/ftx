@@ -5,7 +5,7 @@ namespace FTX\Api;
 
 use DateTimeInterface;
 use FTX\Api\Traits\TransformsTimestamps;
-use FTX\Dictionaries\Fills as FillsDictionary;
+use FTX\Dictionaries\Endpoint;
 
 class Fills extends HttpApi
 {
@@ -31,8 +31,8 @@ class Fills extends HttpApi
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
 
-        return $this->respond($this->http->get(
-            FillsDictionary::FILLS_URI,
+        return $this->respond($this->get(
+            Endpoint::FILLS->value,
             compact('market', 'start_time', 'end_time', 'order', 'orderId'))
         );
     }

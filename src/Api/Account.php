@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Api;
 
-use FTX\Dictionaries\Account as AccountDictionary;
+use FTX\Dictionaries\Endpoint;
 
 class Account extends HttpApi
 {
@@ -12,9 +12,9 @@ class Account extends HttpApi
      *
      * @return mixed
      */
-    public function get()
+    public function info()
     {
-        return $this->respond($this->http->get(AccountDictionary::ACCOUNTS_URI));
+        return $this->respond($this->get(Endpoint::ACCOUNTS->value));
     }
 
     /**
@@ -24,7 +24,7 @@ class Account extends HttpApi
      */
     public function requestHistoricalBalances()
     {
-        return $this->respond($this->http->post(AccountDictionary::HISTORICAL_BALANCES_URI));
+        return $this->respond($this->post(Endpoint::HISTORICAL_BALANCES->value));
     }
 
     /**
@@ -35,7 +35,8 @@ class Account extends HttpApi
      */
     public function historicalBalance(int $requestID)
     {
-        return $this->respond($this->http->get(AccountDictionary::HISTORICAL_BALANCES_URI . "/$requestID"));
+        $endpoint = Endpoint::HISTORICAL_BALANCES;
+        return $this->respond($this->get($endpoint->withID((string) $requestID)));
     }
 
     /**
@@ -45,7 +46,7 @@ class Account extends HttpApi
      */
     public function historicalBalances()
     {
-        return $this->respond($this->http->get(AccountDictionary::HISTORICAL_BALANCES_URI));
+        return $this->respond($this->get(Endpoint::HISTORICAL_BALANCES->value));
     }
 
     /**
@@ -56,7 +57,7 @@ class Account extends HttpApi
      */
     public function positions(bool $showAvgPrice = false): mixed
     {
-        return $this->respond($this->http->get(AccountDictionary::POSITIONS_URI, compact('showAvgPrice')));
+        return $this->respond($this->get(Endpoint::POSITIONS->value, compact('showAvgPrice')));
     }
 
     /**
@@ -67,6 +68,6 @@ class Account extends HttpApi
      */
     public function changeAccountLeverage(int $leverage)
     {
-        return $this->respond($this->http->post(AccountDictionary::ACCOUNTS_LEVERAGE_URI, null, compact('leverage')));
+        return $this->respond($this->post(Endpoint::ACCOUNTS_LEVERAGE->value, null, compact('leverage')));
     }
 }

@@ -5,7 +5,7 @@ namespace FTX\Api;
 
 use FTX\Api\Support\PendingOrder;
 use FTX\Api\Traits\TransformsTimestamps;
-use FTX\Dictionaries\Orders as OrdersDictionary;
+use FTX\Dictionaries\Endpoint;
 
 class Orders extends HttpApi
 {
@@ -19,7 +19,7 @@ class Orders extends HttpApi
      */
     public function open(?string $market = null)
     {
-        return $this->respond($this->http->get(OrdersDictionary::ORDERS_URI, compact('market')));
+        return $this->respond($this->get(Endpoint::ORDERS->value, compact('market')));
     }
 
     /**
@@ -34,29 +34,7 @@ class Orders extends HttpApi
     public function history(?string $market = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null, ?int $limit = null)
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
-        return $this->respond($this->http->get(OrdersDictionary::ORDERS_HISTORY_URI, compact('market', 'start_time', 'end_time', 'limit')));
-    }
-
-    /**
-     * Get order status
-     *
-     * @param string $orderId
-     * @return mixed
-     */
-    public function status(string $orderId)
-    {
-        return $this->respond($this->http->get(OrdersDictionary::ORDERS_URI . '/' . $orderId));
-    }
-
-    /**
-     * Get order status by client ID
-     *
-     * @param string $orderId
-     * @return mixed
-     */
-    public function statusByClientID(string $orderId)
-    {
-        return $this->respond($this->http->get(OrdersDictionary::ORDERS_URI . '/' . $orderId));
+        return $this->respond($this->get(Endpoint::ORDERS_HISTORY->value, compact('market', 'start_time', 'end_time', 'limit')));
     }
 
     public function create(?array $attributes = []) : PendingOrder
@@ -72,7 +50,51 @@ class Orders extends HttpApi
      */
     public function place(PendingOrder $pendingOrder)
     {
-        return $this->respond($this->http->post(OrdersDictionary::ORDERS_URI, null, $pendingOrder->toArray()));
+        return $this->respond($this->post(Endpoint::ORDERS->value, null, $pendingOrder->toArray()));
+    }
+
+    /**
+     * Modify order
+     *
+     * @param array|null $attributes
+     * @return PendingOrder
+     */
+    public function modify(PendingOrder $pendingOrder)
+    {
+        return $this->respond($this->post(Endpoint::ORDERS->value, null, $pendingOrder->toArray()));
+    }
+
+    /**
+     * Modify by client id order
+     *
+     * @param array|null $attributes
+     * @return PendingOrder
+     */
+    public function modifyByClientID(PendingOrder $pendingOrder)
+    {
+        return $this->respond($this->post(Endpoint::ORDERS->value, null, $pendingOrder->toArray()));
+    }
+
+    /**
+     * Get order status
+     *
+     * @param string $orderId
+     * @return mixed
+     */
+    public function status(string $orderId)
+    {
+        return $this->respond($this->get(Endpoint::ORDERS->withID($orderId)));
+    }
+
+    /**
+     * Get order status by client ID
+     *
+     * @param string $orderId
+     * @return mixed
+     */
+    public function statusByClientID(string $orderId)
+    {
+        return $this->respond($this->get(Endpoint::ORDERS->withID($orderId)));
     }
 
     /**
@@ -83,7 +105,7 @@ class Orders extends HttpApi
      */
     public function cancel(string $orderId)
     {
-        return $this->respond($this->http->delete(OrdersDictionary::ORDERS_URI . '/' . $orderId));
+        return $this->respond($this->delete(Endpoint::ORDERS->withID($orderId)));
     }
 
     /**
@@ -94,7 +116,7 @@ class Orders extends HttpApi
      */
     public function cancelByClientID(string $orderId)
     {
-        return $this->respond($this->http->delete(OrdersDictionary::ORDERS_URI . '/' . $orderId));
+        return $this->respond($this->delete(Endpoint::ORDERS->withID($orderId)));
     }
 
     /**
@@ -108,6 +130,6 @@ class Orders extends HttpApi
      */
     public function cancelAll(?string $market = null, ?bool $conditionalOrdersOnly = null, ?bool $limitOrdersOnly = null)
     {
-        return $this->respond($this->http->delete(OrdersDictionary::ORDERS_URI, null, compact('market', 'conditionalOrdersOnly', 'limitOrdersOnly')));
+        return $this->respond($this->delete(Endpoint::ORDERS->value, null, compact('market', 'conditionalOrdersOnly', 'limitOrdersOnly')));
     }
 }

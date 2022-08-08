@@ -6,7 +6,7 @@ namespace FTX\Api;
 use DateTimeInterface;
 use FTX\Api\Support\PendingConditionalOrder;
 use FTX\Api\Traits\TransformsTimestamps;
-use FTX\Dictionaries\ConditionalOrders as ConditionalOrdersDictionary;
+use FTX\Dictionaries\Endpoint;
 
 class ConditionalOrders extends HttpApi
 {
@@ -21,64 +21,19 @@ class ConditionalOrders extends HttpApi
      */
     public function open(?string $market = null, ?string $type = null)
     {
-        return $this->respond($this->http->get(ConditionalOrdersDictionary::COND_ORDERS_URI, compact('market', 'type')));
+        return $this->respond($this->get(Endpoint::COND_ORDERS->value, compact('market', 'type')));
     }
 
     /**
-     * Get trigger order status
-     *
-     * @param string $orderId
-     * @return mixed
-     */
-    public function status(string $orderId)
-    {
-        return $this->respond($this->http->get(ConditionalOrdersDictionary::COND_ORDERS_URI . '/' . $orderId));
-    }
-
-    public function create(?array $attributes = []) : PendingConditionalOrder
-    {
-        return new PendingConditionalOrder($this, $attributes);
-    }
-
-    /**
-     * Place trigger order
-     *
-     * @param PendingConditionalOrder $pendingOrder
-     * @return mixed
-     */
-    public function place(PendingConditionalOrder $pendingOrder)
-    {
-        return $this->respond($this->http->post(ConditionalOrdersDictionary::COND_ORDERS_URI, null, $pendingOrder->toArray()));
-    }
-
-    /**
-     * Cancel open trigger order
-     *
-     * @param string $orderId
-     * @return mixed
-     */
-    public function cancel(string $orderId)
-    {
-        return $this->respond($this->http->delete(ConditionalOrdersDictionary::COND_ORDERS_URI . '/' . $orderId));
-    }
-
-    /**
-     * Cancel all orders
-     *
-     * This will also cancel common orders
+     * Get triggers for trigger order
      *
      * @param string|null $market
-     * @param bool|null $conditionalOrdersOnly
-     * @param bool|null $limitOrdersOnly
+     * @param string|null $type type of trigger order (stop, trailing_stop, or take_profit)
      * @return mixed
      */
-    public function cancelAll(?string $market = null, ?bool $conditionalOrdersOnly = true, ?bool $limitOrdersOnly = null) : mixed
+    public function tiggers(?string $market = null, ?string $type = null)
     {
-        return $this->respond($this->http->delete(
-            ConditionalOrdersDictionary::ORDERS_URI,
-            null,
-            compact('market', 'conditionalOrdersOnly', 'limitOrdersOnly'))
-        );
+        return $this->respond($this->get(Endpoint::COND_ORDERS->value, compact('market', 'type')));
     }
 
     /**
@@ -104,9 +59,77 @@ class ConditionalOrders extends HttpApi
     )
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
-        return $this->respond($this->http->get(
-            ConditionalOrdersDictionary::COND_ORDERS_HISTORY_URI,
+        return $this->respond($this->get(
+            Endpoint::COND_ORDERS_HISTORY->value,
             compact('market', 'start_time', 'end_time', 'side', 'type', 'orderType', 'limit')
         ));
+    }
+
+    public function create(?array $attributes = []) : PendingConditionalOrder
+    {
+        return new PendingConditionalOrder($this, $attributes);
+    }
+
+    /**
+     * Place trigger order
+     *
+     * @param PendingConditionalOrder $pendingOrder
+     * @return mixed
+     */
+    public function place(PendingConditionalOrder $pendingOrder)
+    {
+        return $this->respond($this->post(Endpoint::COND_ORDERS->value, null, $pendingOrder->toArray()));
+    }
+
+    /**
+     * Modify trigger order
+     *
+     * @param PendingConditionalOrder $pendingOrder
+     * @return mixed
+     */
+    public function modify(PendingConditionalOrder $pendingOrder)
+    {
+        return $this->respond($this->post(Endpoint::COND_ORDERS->value, null, $pendingOrder->toArray()));
+    }
+
+    /**
+     * Get trigger order status
+     *
+     * @param string $orderId
+     * @return mixed
+     */
+    public function status(string $orderId)
+    {
+        return $this->respond($this->get(Endpoint::COND_ORDERS->withID($orderId)));
+    }
+
+    /**
+     * Cancel open trigger order
+     *
+     * @param string $orderId
+     * @return mixed
+     */
+    public function cancel(string $orderId)
+    {
+        return $this->respond($this->delete(Endpoint::COND_ORDERS->withID($orderId)));
+    }
+
+    /**
+     * Cancel all orders
+     *
+     * This will also cancel common orders
+     *
+     * @param string|null $market
+     * @param bool|null $conditionalOrdersOnly
+     * @param bool|null $limitOrdersOnly
+     * @return mixed
+     */
+    public function cancelAll(?string $market = null, ?bool $conditionalOrdersOnly = true, ?bool $limitOrdersOnly = null) : mixed
+    {
+        return $this->respond($this->delete(
+            Endpoint::ORDERS->value,
+            null,
+            compact('market', 'conditionalOrdersOnly', 'limitOrdersOnly'))
+        );
     }
 }
