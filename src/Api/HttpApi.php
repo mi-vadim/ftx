@@ -3,11 +3,14 @@ declare(strict_types=1);
 
 namespace FTX\Api;
 
+use FTX\Api\Traits\TransformsTimestamps;
 use Psr\Http\Message\ResponseInterface;
 use FTX\Client\HttpClient;
 
 abstract class HttpApi
 {
+    use TransformsTimestamps;
+
     public function __construct(
         private readonly HttpClient $http
     ){}
@@ -27,8 +30,19 @@ abstract class HttpApi
         return $this->http->delete($endpoint, $parameters, $payload);
     }
 
-    protected function respond(ResponseInterface $response)
+    protected function respond(ResponseInterface $response) : array
     {
-        return json_decode($response->getBody()->getContents(), true);
+        $decodedResponse = json_decode(
+            $response->getBody()->getContents(),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
+
+        if (array_key_exists('result', $decodedResponse)) {
+            return $decodedResponse['result'];
+        }
+
+        return $decodedResponse;
     }
 }
