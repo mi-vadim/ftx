@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace FTX\Api;
 
-
 use FTX\Dictionaries\Endpoint;
 
 class LeveragedTokens extends HttpApi

@@ -5,13 +5,10 @@ namespace FTX\Api;
 
 use DateTimeInterface;
 use FTX\Api\Support\PendingConditionalOrder;
-use FTX\Api\Traits\TransformsTimestamps;
 use FTX\Dictionaries\Endpoint;
 
 class ConditionalOrders extends HttpApi
 {
-    use TransformsTimestamps;
-
     /**
      * Get open trigger orders
      *

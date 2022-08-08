@@ -3,13 +3,10 @@ declare(strict_types=1);
 
 namespace FTX\Api;
 
-use FTX\Api\Traits\TransformsTimestamps;
 use FTX\Dictionaries\Endpoint;
 
 class SpotMargin extends HttpApi
 {
-    use TransformsTimestamps;
-
     /**
      * Get borrow rates
      *

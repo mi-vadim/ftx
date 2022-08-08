@@ -4,13 +4,10 @@ declare(strict_types=1);
 namespace FTX\Api;
 
 use DateTimeInterface;
-use FTX\Api\Traits\TransformsTimestamps;
 use FTX\Dictionaries\Endpoint;
 
 class Fills extends HttpApi
 {
-    use TransformsTimestamps;
-
     /**
      * Fills
      *

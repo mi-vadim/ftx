@@ -5,12 +5,9 @@ namespace FTX\Api;
 
 use FTX\Api\Traits\TransformsTimestamps;
 use FTX\Dictionaries\Endpoint;
-use FTX\Dictionaries\Futures as FuturesDictionary;
 
 class Futures extends HttpApi
 {
-    use TransformsTimestamps;
-
     /**
      * List all futures
      *

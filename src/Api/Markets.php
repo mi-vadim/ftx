@@ -4,12 +4,9 @@ declare(strict_types=1);
 namespace FTX\Api;
 
 use FTX\Dictionaries\Endpoint;
-use FTX\Api\Traits\TransformsTimestamps;
 
 class Markets extends HttpApi
 {
-    use TransformsTimestamps;
-
     /**
      * Get markets
      *

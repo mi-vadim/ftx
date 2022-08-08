@@ -4,13 +4,10 @@ declare(strict_types=1);
 namespace FTX\Api;
 
 use FTX\Api\Support\PendingOrder;
-use FTX\Api\Traits\TransformsTimestamps;
 use FTX\Dictionaries\Endpoint;
 
 class Orders extends HttpApi
 {
-    use TransformsTimestamps;
-
     /**
      * Get open orders
      *

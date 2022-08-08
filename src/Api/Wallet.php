@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace FTX\Api;
 
 use FTX\Api\Support\PendingWithdrawalRequest;
-use FTX\Dictionaries\Wallet as WalletDictionary;
+use FTX\Dictionaries\Endpoint;
 
 class Wallet extends HttpApi
 {
@@ -15,7 +15,7 @@ class Wallet extends HttpApi
      */
     public function coins()
     {
-        return $this->respond($this->http->get(WalletDictionary::WALLET_COINS_URI));
+        return $this->respond($this->get(Endpoint::WALLET_COINS->value));
     }
 
     /**
@@ -25,7 +25,7 @@ class Wallet extends HttpApi
      */
     public function balances()
     {
-        return $this->respond($this->http->get(WalletDictionary::WALLET_BALANCES_URI));
+        return $this->respond($this->get(Endpoint::WALLET_BALANCES->value));
     }
 
     /**
@@ -35,7 +35,7 @@ class Wallet extends HttpApi
      */
     public function allBalances()
     {
-        return $this->respond($this->http->get(WalletDictionary::WALLET_ALL_BALANCES_URI));
+        return $this->respond($this->get(Endpoint::WALLET_ALL_BALANCES->value));
     }
 
     /**
@@ -47,7 +47,7 @@ class Wallet extends HttpApi
      */
     public function depositAddress(string $coin, ?string $method = null)
     {
-        return $this->respond($this->http->get(WalletDictionary::WALLET_DEPOSIT_ADDRESS_URI.'/'.$coin, compact('method')));
+        return $this->respond($this->get(Endpoint::WALLET_DEPOSIT_ADDRESS->withID($coin), compact('method')));
     }
 
     /**
@@ -57,7 +57,7 @@ class Wallet extends HttpApi
      */
     public function addressesList()
     {
-        return $this->respond($this->http->post('/wallet/deposit_address/list'));
+        return $this->respond($this->post('/wallet/deposit_address/list'));
     }
 
     /**
@@ -67,7 +67,7 @@ class Wallet extends HttpApi
      */
     public function depositsHistory()
     {
-        return $this->respond($this->http->get(WalletDictionary::WALLET_DEPOSITS_URI));
+        return $this->respond($this->get(Endpoint::WALLET_DEPOSITS->value));
     }
 
     /**
@@ -77,7 +77,7 @@ class Wallet extends HttpApi
      */
     public function withdrawalsHistory()
     {
-        return $this->respond($this->http->get(WalletDictionary::WALLET_WITHDRAWALS_URI));
+        return $this->respond($this->get(Endpoint::WALLET_WITHDRAWALS->value));
     }
 
     /**
@@ -88,7 +88,7 @@ class Wallet extends HttpApi
      */
     public function withdraw(PendingWithdrawalRequest $pendingWithdrawalRequest)
     {
-        return $this->respond($this->http->post(WalletDictionary::WALLET_WITHDRAWALS_URI, null, $pendingWithdrawalRequest->toArray()));
+        return $this->respond($this->post(Endpoint::WALLET_WITHDRAWALS->value, null, $pendingWithdrawalRequest->toArray()));
     }
 
     public function createWithdrawalRequest(string $coin, float $size, string $address) : PendingWithdrawalRequest
@@ -104,7 +104,7 @@ class Wallet extends HttpApi
      */
     public function fees(PendingWithdrawalRequest $pendingWithdrawalRequest)
     {
-        return $this->respond($this->http->get(WalletDictionary::WALLET_WITHDRAWAL_FEES_URI, $pendingWithdrawalRequest->toArray()));
+        return $this->respond($this->get(Endpoint::WALLET_WITHDRAWAL_FEES->value, $pendingWithdrawalRequest->toArray()));
     }
 
     /**
@@ -114,7 +114,7 @@ class Wallet extends HttpApi
      */
     public function savedAddresses()
     {
-        return $this->respond($this->http->get('/wallet/saved_addresses'));
+        return $this->respond($this->get('/wallet/saved_addresses'));
     }
 
     /**
@@ -124,7 +124,7 @@ class Wallet extends HttpApi
      */
     public function createSavedAddress()
     {
-        return $this->respond($this->http->post());
+        return $this->respond($this->post(Endpoint::SPOT_MARGIN_LENDING_HISTORY->value));
     }
 
     /**
@@ -135,7 +135,7 @@ class Wallet extends HttpApi
      */
     public function deleteSavedAddress(string $savedAddressId)
     {
-        $this->respond($this->http->delete("/wallet/saved_addresses/{$savedAddressId}"));
+        $this->respond($this->delete("/wallet/saved_addresses/{$savedAddressId}"));
     }
 
 }
