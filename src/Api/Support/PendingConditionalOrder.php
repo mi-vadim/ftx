@@ -3,18 +3,15 @@ declare(strict_types=1);
 
 namespace FTX\Api\Support;
 
+use FTX\Dictionaries\OrderType;
+use FTX\Dictionaries\Side;
+
 class PendingConditionalOrder extends PendingRequest
 {
-    public const SIDE_BUY = 'buy';
-    public const SIDE_SELL = 'sell';
-    public const TYPE_STOP = 'stop';
-    public const TYPE_TAKE_PROFIT = 'takeProfit';
-    public const TYPE_TRAILING_STOP = 'trailingStop';
-
     public function buy(string $market) : self
     {
         $this->attributes['market'] = $market;
-        $this->attributes['side'] = self::SIDE_BUY;
+        $this->attributes['side'] = Side::SIDE_BUY->value;
 
         return $this;
     }
@@ -22,14 +19,14 @@ class PendingConditionalOrder extends PendingRequest
     public function sell(string $market) : self
     {
         $this->attributes['market'] = $market;
-        $this->attributes['side'] = self::SIDE_SELL;
+        $this->attributes['side'] = Side::SIDE_SELL->value;
 
         return $this;
     }
 
     public function takeProfit(float $size, float $triggerPrice, ?float $orderPrice = null) : self
     {
-        $this->attributes['type'] = self::TYPE_TAKE_PROFIT;
+        $this->attributes['type'] = OrderType::TYPE_TAKE_PROFIT->value;
         $this->attributes['size'] = $size;
         $this->attributes['triggerPrice'] = $triggerPrice;
         $this->attributes['orderPrice'] = $orderPrice;
@@ -39,7 +36,7 @@ class PendingConditionalOrder extends PendingRequest
 
     public function stop(float $size, float $triggerPrice, ?float $orderPrice = null) : self
     {
-        $this->attributes['type'] = self::TYPE_STOP;
+        $this->attributes['type'] = OrderType::TYPE_STOP->value;
         $this->attributes['size'] = $size;
         $this->attributes['triggerPrice'] = $triggerPrice;
         $this->attributes['orderPrice'] = $orderPrice;
@@ -49,7 +46,7 @@ class PendingConditionalOrder extends PendingRequest
 
     public function trailingStop(float $size, float $trailValue) : self
     {
-        $this->attributes['type'] = self::TYPE_TRAILING_STOP;
+        $this->attributes['type'] = OrderType::TYPE_TRAILING_STOP->value;
         $this->attributes['size'] = $size;
         $this->attributes['trailValue'] = $trailValue;
 

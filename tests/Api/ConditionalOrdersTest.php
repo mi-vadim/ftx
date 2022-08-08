@@ -5,6 +5,8 @@ namespace FTX\Tests\Api;
 
 use FTX\Api\ConditionalOrders;
 use FTX\Api\Support\PendingConditionalOrder;
+use FTX\Dictionaries\OrderType;
+use FTX\Dictionaries\Side;
 use Http\Mock\Client;
 
 class ConditionalOrdersTest extends TestCase
@@ -29,10 +31,10 @@ class ConditionalOrdersTest extends TestCase
 
         $start = new \DateTime('2020-02-01');
         $end = new \DateTime('2020-03-01');
-        $this->orders->history('BTC-PERP', $start, $end, PendingConditionalOrder::SIDE_BUY, 'trailing_stop', 'limit', 50);
+        $this->orders->history('BTC-PERP', $start, $end, Side::SIDE_BUY->value, 'trailing_stop', 'limit', 50);
 
         parse_str($this->client->getLastRequest()->getUri()->getQuery(), $query);
-        $this->assertEquals(['market' => 'BTC-PERP', 'start_time' => $start->getTimestamp(), 'end_time' => $end->getTimestamp(), 'side' => PendingConditionalOrder::SIDE_BUY, 'type' => 'trailing_stop', 'orderType' => 'limit', 'limit' => '50'], $query);
+        $this->assertEquals(['market' => 'BTC-PERP', 'start_time' => $start->getTimestamp(), 'end_time' => $end->getTimestamp(), 'side' => Side::SIDE_BUY->value, 'type' => 'trailing_stop', 'orderType' => 'limit', 'limit' => '50'], $query);
     }
 
     public function testOpen()
@@ -89,14 +91,14 @@ class ConditionalOrdersTest extends TestCase
 
     public function testCreateOrder()
     {
-        $order = $this->orders->create(['side' => PendingConditionalOrder::SIDE_BUY, 'size' => 99.9, 'market' => 'BTC-PERP', 'triggerPrice' => 7000.01, 'orderPrice' => 7001.01]);
+        $order = $this->orders->create(['side' => Side::SIDE_BUY->value, 'size' => 99.9, 'market' => 'BTC-PERP', 'triggerPrice' => 7000.01, 'orderPrice' => 7001.01]);
 
         $this->assertInstanceOf(PendingConditionalOrder::class, $order);
         $this->assertEquals('BTC-PERP', $order->market);
         $this->assertEquals(99.9, $order->size);
         $this->assertEquals(7000.01, $order->triggerPrice);
         $this->assertEquals(7001.01, $order->orderPrice);
-        $this->assertEquals(['side' => PendingConditionalOrder::SIDE_BUY, 'size' => 99.9, 'market' => 'BTC-PERP', 'triggerPrice' => 7000.01, 'orderPrice' => 7001.01], $order->toArray());
+        $this->assertEquals(['side' => Side::SIDE_BUY->value, 'size' => 99.9, 'market' => 'BTC-PERP', 'triggerPrice' => 7000.01, 'orderPrice' => 7001.01], $order->toArray());
 
         $order->place();
 
@@ -106,7 +108,7 @@ class ConditionalOrdersTest extends TestCase
 
         $this->assertEquals('/api/conditional_orders', $this->client->getLastRequest()->getUri()->getPath());
         $this->assertEquals('POST', $this->client->getLastRequest()->getMethod());
-        $this->assertEquals(['side' => PendingConditionalOrder::SIDE_BUY, 'size' => 99.9, 'market' => 'BTC-PERP', 'triggerPrice' => 7000.01, 'orderPrice' => 7001.01], $payload);
+        $this->assertEquals(['side' => Side::SIDE_BUY->value, 'size' => 99.9, 'market' => 'BTC-PERP', 'triggerPrice' => 7000.01, 'orderPrice' => 7001.01], $payload);
 
         $order = $this->orders->create()->takeProfit(99.9, 7000.01, 7001.01)->sell('BTC-PERP');
 
@@ -116,7 +118,7 @@ class ConditionalOrdersTest extends TestCase
         $this->assertEquals(7000.01, $order->triggerPrice);
         $this->assertEquals(7001.01, $order->orderPrice);
         $this->assertEquals(
-            ['side' => PendingConditionalOrder::SIDE_SELL, 'size' => 99.9, 'market' => 'BTC-PERP', 'triggerPrice' => 7000.01, 'orderPrice' => 7001.01, 'type' => PendingConditionalOrder::TYPE_TAKE_PROFIT],
+            ['side' => Side::SIDE_SELL->value, 'size' => 99.9, 'market' => 'BTC-PERP', 'triggerPrice' => 7000.01, 'orderPrice' => 7001.01, 'type' => OrderType::TYPE_TAKE_PROFIT->value],
             $order->toArray()
         );
 
@@ -128,7 +130,7 @@ class ConditionalOrdersTest extends TestCase
         $this->assertEquals(7000.01, $order->triggerPrice);
         $this->assertEquals(7001.01, $order->orderPrice);
         $this->assertEquals(
-            ['side' => PendingConditionalOrder::SIDE_BUY, 'size' => 99.9, 'market' => 'BTC-PERP', 'triggerPrice' => 7000.01, 'orderPrice' => 7001.01, 'type' => PendingConditionalOrder::TYPE_STOP],
+            ['side' => Side::SIDE_BUY->value, 'size' => 99.9, 'market' => 'BTC-PERP', 'triggerPrice' => 7000.01, 'orderPrice' => 7001.01, 'type' => OrderType::TYPE_STOP->value],
             $order->toArray()
         );
 
@@ -139,7 +141,7 @@ class ConditionalOrdersTest extends TestCase
         $this->assertEquals(99.9, $order->size);
         $this->assertEquals(-0.05, $order->trailValue);
         $this->assertEquals(
-            ['side' => PendingConditionalOrder::SIDE_BUY, 'size' => 99.9, 'market' => 'BTC-PERP', 'trailValue' => -0.05, 'type' => PendingConditionalOrder::TYPE_TRAILING_STOP],
+            ['side' => Side::SIDE_BUY->value, 'size' => 99.9, 'market' => 'BTC-PERP', 'trailValue' => -0.05, 'type' => OrderType::TYPE_TRAILING_STOP->value],
             $order->toArray()
         );
 
@@ -151,11 +153,11 @@ class ConditionalOrdersTest extends TestCase
         $this->assertEquals(-0.05, $order->trailValue);
         $this->assertEquals(
             [
-                'side' => PendingConditionalOrder::SIDE_BUY,
+                'side' => Side::SIDE_BUY->value,
                 'size' => 99.9,
                 'market' => 'BTC-PERP',
                 'trailValue' => -0.05,
-                'type' => PendingConditionalOrder::TYPE_TRAILING_STOP,
+                'type' => OrderType::TYPE_TRAILING_STOP->value,
                 'retryUntilFilled' => true
             ],
             $order->toArray()
@@ -169,11 +171,11 @@ class ConditionalOrdersTest extends TestCase
         $this->assertEquals(-0.05, $order->trailValue);
         $this->assertEquals(
             [
-                'side' => PendingConditionalOrder::SIDE_BUY,
+                'side' => Side::SIDE_BUY->value,
                 'size' => 99.9,
                 'market' => 'BTC-PERP',
                 'trailValue' => -0.05,
-                'type' => PendingConditionalOrder::TYPE_TRAILING_STOP,
+                'type' => OrderType::TYPE_TRAILING_STOP->value,
                 'reduceOnly' => true
             ],
             $order->toArray()

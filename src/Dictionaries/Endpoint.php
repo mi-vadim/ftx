@@ -17,11 +17,13 @@ enum Endpoint : string
     case FUTURES                        = 'futures';
     case FUNDING_RATES                  = 'funding_rates';
     case EXPIRED_FUTURES                = 'expired_futures';
+
     case LEVERAGED_INFO                 = 'lt';
     case LEVERAGED_TOKENS               = 'lt/tokens';
     case LEVERAGED_TOKENS_BALANCES      = 'lt/balances';
     case LEVERAGED_TOKENS_CREATIONS     = 'lt/creations';
     case LEVERAGED_TOKENS_REDEMPTIONS   = 'lt/redemptions';
+
     case MARKETS                        = 'markets';
 
     case OPTIONS                        = 'options';
@@ -50,6 +52,7 @@ enum Endpoint : string
     case SUBACCOUNTS                    = 'subaccounts';
     case SUBACCOUNTS_UPDATE_NAME        = 'subaccounts/update_name';
     case SUBACCOUNTS_TRANSFER           = 'subaccounts/transfer';
+
     case WALLET_COINS                   = 'wallet/coins';
     case WALLET_BALANCES                = 'wallet/balances';
     case WALLET_ALL_BALANCES            = 'wallet/all_balances';

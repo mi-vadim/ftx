@@ -3,17 +3,15 @@ declare(strict_types=1);
 
 namespace FTX\Api\Support;
 
+use FTX\Dictionaries\OrderType;
+use FTX\Dictionaries\Side;
+
 class PendingOrder extends PendingRequest
 {
-    public const SIDE_BUY = 'buy';
-    public const SIDE_SELL = 'sell';
-    public const TYPE_LIMIT = 'limit';
-    public const TYPE_MARKET = 'market';
-
     public function buy(string $market) : self
     {
         $this->attributes['market'] = $market;
-        $this->attributes['side'] = self::SIDE_BUY;
+        $this->attributes['side'] = Side::SIDE_BUY->value;
 
         return $this;
     }
@@ -21,14 +19,14 @@ class PendingOrder extends PendingRequest
     public function sell(string $market) : self
     {
         $this->attributes['market'] = $market;
-        $this->attributes['side'] = self::SIDE_SELL;
+        $this->attributes['side'] = Side::SIDE_SELL->value;
 
         return $this;
     }
 
     public function market(float $size) : self
     {
-        $this->attributes['type'] = self::TYPE_MARKET;
+        $this->attributes['type'] = OrderType::TYPE_MARKET->value;
         $this->attributes['size'] = $size;
         $this->attributes['price'] = null;
 
@@ -37,7 +35,7 @@ class PendingOrder extends PendingRequest
 
     public function limit(float $size, float $price) : self
     {
-        $this->attributes['type'] = self::TYPE_LIMIT;
+        $this->attributes['type'] = OrderType::TYPE_LIMIT->value;
         $this->attributes['size'] = $size;
         $this->attributes['price'] = $price;
 
