@@ -9,10 +9,12 @@ class SubaccountResponse extends AbstractResponser
 {
     public function __construct(
         public readonly string $nickname,
-        public readonly bool $deletable,
-        public readonly bool $editable,
-        public readonly bool $competition,
-    ){}
+        public readonly bool   $deletable,
+        public readonly bool   $editable,
+        public readonly bool   $competition,
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

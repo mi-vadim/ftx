@@ -11,22 +11,24 @@ class TokenInfoResponse extends AbstractResponser
         public readonly string $name,
         public readonly string $description,
         public readonly string $underlying,
-        public readonly float $leverage,
-        public readonly float $outstanding,
-        public readonly float $pricePerShare,
+        public readonly float  $leverage,
+        public readonly float  $outstanding,
+        public readonly float  $pricePerShare,
         public readonly object $positionsPerShare,
         public readonly object $basket,
-        public readonly array $targetComponents,
-        public readonly float $totalNav,
-        public readonly float $totalCollateral,
-        public readonly float $currentLeverage,
-        public readonly float $positionPerShare,
-        public readonly float $underlyingMark,
+        public readonly array  $targetComponents,
+        public readonly float  $totalNav,
+        public readonly float  $totalCollateral,
+        public readonly float  $currentLeverage,
+        public readonly float  $positionPerShare,
+        public readonly float  $underlyingMark,
         public readonly string $contractAddress,
-        public readonly float $change1h,
-        public readonly float $change24h,
-        public readonly float $changeBod,
-    ){}
+        public readonly float  $change1h,
+        public readonly float  $change24h,
+        public readonly float  $changeBod,
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

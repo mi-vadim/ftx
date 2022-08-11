@@ -9,8 +9,10 @@ class DailyBorrowedAmountResponse extends AbstractResponser
 {
     public function __construct(
         public readonly string $coin,
-        public readonly float $size,
-    ){}
+        public readonly float  $size,
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

@@ -9,7 +9,9 @@ class CancelOrderResponse extends AbstractResponser
 {
     public function __construct(
         public readonly string $status
-    ){}
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

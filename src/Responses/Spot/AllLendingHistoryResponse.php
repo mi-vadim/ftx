@@ -10,9 +10,11 @@ class AllLendingHistoryResponse extends AbstractResponser
     public function __construct(
         public readonly string $coin,
         public readonly string $time,
-        public readonly float $rate,
-        public readonly float $size,
-    ){}
+        public readonly float  $rate,
+        public readonly float  $size,
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

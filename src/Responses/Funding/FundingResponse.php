@@ -9,10 +9,12 @@ class FundingResponse extends AbstractResponser
 {
     private function __construct(
         public readonly string $future,
-        public readonly int $id,
-        public readonly float $payment,
+        public readonly int    $id,
+        public readonly float  $payment,
         public readonly string $time
-    ){}
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

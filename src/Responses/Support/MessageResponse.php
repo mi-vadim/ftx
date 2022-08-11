@@ -8,12 +8,14 @@ use FTX\Responses\AbstractResponser;
 class MessageResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly int $id,
+        public readonly int    $id,
         public readonly string $message,
         public readonly string $uploadedFileName,
-        public readonly bool $authorIsCustomer,
+        public readonly bool   $authorIsCustomer,
         public readonly string $time
-    ){}
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

@@ -10,17 +10,19 @@ class CreateSavedAddressResponse extends AbstractResponser
     public function __construct(
         public readonly string $address,
         public readonly string $coin,
-        public readonly bool $fiat,
-        public readonly int $id,
-        public readonly bool $isPrimetrust,
-        public readonly bool $isSwipeCard,
+        public readonly bool   $fiat,
+        public readonly int    $id,
+        public readonly bool   $isPrimetrust,
+        public readonly bool   $isSwipeCard,
         public readonly string $lastUsedAt,
         public readonly string $name,
         public readonly string $tag,
         public readonly string $wallet,
-        public readonly bool $whitelisted,
+        public readonly bool   $whitelisted,
         public readonly string $whitelistedAfter,
-    ){}
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {
@@ -36,7 +38,7 @@ class CreateSavedAddressResponse extends AbstractResponser
             tag: $data['tag'],
             wallet: $data['wallet'],
             whitelisted: $data['whitelisted'],
-            whitelistedAfter:$data['whitelistedAfter1']
+            whitelistedAfter: $data['whitelistedAfter1']
         );
     }
 }

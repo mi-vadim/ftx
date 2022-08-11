@@ -9,11 +9,13 @@ class BorrowedHistoryResponse extends AbstractResponser
 {
     public function __construct(
         public readonly string $coin,
-        public readonly float $cost,
-        public readonly float $rate,
-        public readonly float $size,
+        public readonly float  $cost,
+        public readonly float  $rate,
+        public readonly float  $size,
         public readonly string $time,
-    ){}
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

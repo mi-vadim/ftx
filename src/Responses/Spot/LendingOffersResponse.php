@@ -11,7 +11,9 @@ class LendingOffersResponse extends AbstractResponser
         public readonly float $coin,
         public readonly float $rate,
         public readonly float $size,
-    ){}
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

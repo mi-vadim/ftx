@@ -10,11 +10,13 @@ class UnstakeResponse extends AbstractResponser
     public function __construct(
         public readonly string $coin,
         public readonly string $createdAt,
-        public readonly int $id,
-        public readonly float $size,
+        public readonly int    $id,
+        public readonly float  $size,
         public readonly string $status,
         public readonly string $unlockAt,
-    ){}
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

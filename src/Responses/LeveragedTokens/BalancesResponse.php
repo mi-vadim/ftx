@@ -9,8 +9,10 @@ class BalancesResponse extends AbstractResponser
 {
     private function __construct(
         public readonly string $token,
-        public readonly float $balance
-    ){}
+        public readonly float  $balance
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

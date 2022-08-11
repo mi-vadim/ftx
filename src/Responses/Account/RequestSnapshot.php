@@ -13,8 +13,8 @@ class RequestSnapshot extends AbstractResponser
     public static function fromArray(array $data): static
     {
         $self = new self();
-        $self->status = (bool) $data['status'];
-        $self->result = (float) $data['result'];
+        $self->status = (bool)$data['status'];
+        $self->result = (float)$data['result'];
 
         return $self;
     }

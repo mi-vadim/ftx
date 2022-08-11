@@ -9,11 +9,13 @@ class MarketInfoResponse extends AbstractResponser
 {
     public function __construct(
         public readonly string $coin,
-        public readonly float $borrowed,
-        public readonly float $free,
-        public readonly float $estimatedRate,
-        public readonly float $previousRate,
-    ){}
+        public readonly float  $borrowed,
+        public readonly float  $free,
+        public readonly float  $estimatedRate,
+        public readonly float  $previousRate,
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

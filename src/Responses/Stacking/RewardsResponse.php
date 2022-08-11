@@ -9,11 +9,13 @@ class RewardsResponse extends AbstractResponser
 {
     public function __construct(
         public readonly string $coin,
-        public readonly int $id,
-        public readonly float $size,
+        public readonly int    $id,
+        public readonly float  $size,
         public readonly string $status,
         public readonly string $time,
-    ){}
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

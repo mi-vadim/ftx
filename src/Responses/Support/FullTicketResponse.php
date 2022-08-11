@@ -11,7 +11,9 @@ class FullTicketResponse extends AbstractResponser
     public function __construct(
         public readonly TicketResponse $ticket,
         public readonly array          $messages,
-    ){}
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

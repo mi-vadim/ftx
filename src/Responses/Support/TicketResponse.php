@@ -8,7 +8,7 @@ use FTX\Responses\AbstractResponser;
 class TicketResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly int $id,
+        public readonly int    $id,
         public readonly string $title,
         public readonly string $time,
         public readonly string $category,
@@ -17,7 +17,9 @@ class TicketResponse extends AbstractResponser
         public readonly object $fiatDeposit,
         public readonly object $depositHelpRequest,
         public readonly string $autoExpireAt,
-    ){}
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

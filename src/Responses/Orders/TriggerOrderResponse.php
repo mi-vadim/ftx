@@ -3,30 +3,34 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Orders;
 
-class TriggerOrderResponse extends \FTX\Responses\AbstractResponser
+use FTX\Responses\AbstractResponser;
+
+class TriggerOrderResponse extends AbstractResponser
 {
     private function __construct(
-        public readonly string $createdAt,
+        public readonly string  $createdAt,
         public readonly ?string $error,
-        public readonly string $future,
-        public readonly int $id,
-        public readonly string $market,
-        public readonly ?int $orderId,
-        public readonly float $orderPrice,
-        public readonly bool $reduceOnly,
-        public readonly string $side,
-        public readonly float $size,
-        public readonly string $status,
-        public readonly ?float $trailStart,
-        public readonly ?float $trailValue,
-        public readonly float $triggerPrice,
-        public readonly string $triggeredAt,
-        public readonly string $type,
-        public readonly string $orderType,
-        public readonly float $filledSize,
-        public readonly ?float $avgFillPrice,
-        public readonly bool $retryUntilFilled,
-    ){}
+        public readonly string  $future,
+        public readonly int     $id,
+        public readonly string  $market,
+        public readonly ?int    $orderId,
+        public readonly float   $orderPrice,
+        public readonly bool    $reduceOnly,
+        public readonly string  $side,
+        public readonly float   $size,
+        public readonly string  $status,
+        public readonly ?float  $trailStart,
+        public readonly ?float  $trailValue,
+        public readonly float   $triggerPrice,
+        public readonly string  $triggeredAt,
+        public readonly string  $type,
+        public readonly string  $orderType,
+        public readonly float   $filledSize,
+        public readonly ?float  $avgFillPrice,
+        public readonly bool    $retryUntilFilled,
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

@@ -8,15 +8,17 @@ use FTX\Responses\AbstractResponser;
 class Snapshot extends AbstractResponser
 {
     private function __construct(
-        public readonly int $id,
-        public readonly array $accounts,
-        public readonly int $time,
-        public readonly int $endTime,
+        public readonly int    $id,
+        public readonly array  $accounts,
+        public readonly int    $time,
+        public readonly int    $endTime,
         public readonly string $status,
-        public readonly bool $error,
+        public readonly bool   $error,
         /** @var array<SnapshotResult> $results */
-        public readonly array $results,
-    ){}
+        public readonly array  $results,
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

@@ -10,9 +10,11 @@ class WithdrawalFeesResponse extends AbstractResponser
     public function __construct(
         public readonly string $method,
         public readonly string $address,
-        public readonly float $fee,
-        public readonly bool $congested,
-    ){}
+        public readonly float  $fee,
+        public readonly bool   $congested,
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

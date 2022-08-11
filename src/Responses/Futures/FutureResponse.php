@@ -8,27 +8,29 @@ use FTX\Responses\AbstractResponser;
 class FutureResponse extends AbstractResponser
 {
     private function __construct(
-        public readonly float $ask,
-        public readonly float $bid,
-        public readonly float $change1h,
-        public readonly float $change24h,
+        public readonly float  $ask,
+        public readonly float  $bid,
+        public readonly float  $change1h,
+        public readonly float  $change24h,
         public readonly string $description,
-        public readonly bool $enabled,
-        public readonly bool $expired,
+        public readonly bool   $enabled,
+        public readonly bool   $expired,
         public readonly string $expiry,
-        public readonly float $index,
-        public readonly float $last,
-        public readonly float $lowerBound,
-        public readonly float $mark,
+        public readonly float  $index,
+        public readonly float  $last,
+        public readonly float  $lowerBound,
+        public readonly float  $mark,
         public readonly string $name,
-        public readonly bool $perpetual,
-        public readonly bool $postOnly,
-        public readonly float $priceIncrement,
-        public readonly float $sizeIncrement,
+        public readonly bool   $perpetual,
+        public readonly bool   $postOnly,
+        public readonly float  $priceIncrement,
+        public readonly float  $sizeIncrement,
         public readonly string $underlying,
-        public readonly float $upperBound,
+        public readonly float  $upperBound,
         public readonly string $type,
-    ){}
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {

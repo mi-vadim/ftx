@@ -5,5 +5,5 @@ namespace FTX\Responses;
 
 interface Responser
 {
-    public static function fromArray(array $data) : static;
+    public static function fromArray(array $data): static;
 }

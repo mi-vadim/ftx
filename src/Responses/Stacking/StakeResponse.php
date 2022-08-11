@@ -10,9 +10,11 @@ class StakeResponse extends AbstractResponser
     public function __construct(
         public readonly string $coin,
         public readonly string $createdAt,
-        public readonly int $id,
-        public readonly float $size,
-    ){}
+        public readonly int    $id,
+        public readonly float  $size,
+    )
+    {
+    }
 
     public static function fromArray(array $data): static
     {
