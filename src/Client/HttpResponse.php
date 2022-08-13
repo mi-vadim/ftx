@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 final class HttpResponse
 {
     private array $responseBody = [];
-    
+
     public function __construct(
         private readonly ResponseInterface $response
     ){}
@@ -33,7 +33,7 @@ final class HttpResponse
                 $this->responseBody = [];
             }
         }
-        
+
 
         if (array_key_exists('result', $this->responseBody)) {
             return is_array($this->responseBody['result'])

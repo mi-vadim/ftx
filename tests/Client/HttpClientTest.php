@@ -28,19 +28,19 @@ class HttpClientTest extends FTXTestCase
         );
     }
 
-    public function testSubaccountHeaderIsAdded()
+    public function testSubaccountHeaderIsAdded(): void
     {
         $this->http->subaccount = 'foo';
 
         $this->http->get('foo');
 
-        $this->assertEquals($this->client->getLastRequest()->getHeaderLine('FTX-SUBACCOUNT'), 'foo');
+        $this->assertEquals('foo', $this->client->getLastRequest()->getHeaderLine('FTX-SUBACCOUNT'));
     }
 
-    public function testCredentialsHeadersAreAdded()
+    public function testCredentialsHeadersAreAdded(): void
     {
-        $this->http->api_key = 'foo';
-        $this->http->api_secret = 'bar';
+        $this->http->apiKey = 'foo';
+        $this->http->apiSecret = 'bar';
 
         $this->http->get('foo');
 
@@ -48,7 +48,7 @@ class HttpClientTest extends FTXTestCase
 
         $signature = hash_hmac('sha256', $time.'GET/api/foo', 'bar');
 
-        $this->assertEquals($this->client->getLastRequest()->getHeaderLine('FTX-KEY'), 'foo');
+        $this->assertEquals('foo', $this->client->getLastRequest()->getHeaderLine('FTX-KEY'));
         $this->assertEquals($this->client->getLastRequest()->getHeaderLine('FTX-TS'), $time);
         $this->assertEquals($this->client->getLastRequest()->getHeaderLine('FTX-SIGN'), $signature);
     }
