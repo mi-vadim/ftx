@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Tests\Api;
 
-use FTX\Api\ConditionalOrders;
+use FTX\Api\TriggerOrders;
 use FTX\Api\Support\PendingConditionalOrder;
 use FTX\Dictionaries\OrderType;
 use FTX\Dictionaries\Side;
@@ -11,14 +11,14 @@ use Http\Mock\Client;
 
 class ConditionalOrdersTest extends TestCase
 {
-    protected ConditionalOrders $orders;
+    protected TriggerOrders $orders;
     protected Client $client;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->orders = new ConditionalOrders($this->http);
+        $this->orders = new TriggerOrders($this->http);
     }
 
     public function testHistory()

@@ -58,7 +58,7 @@ class Futures extends HttpApi
      * @param \DateTimeInterface|null $end_time
      * @return FundingRateResponse[]
      */
-    public function fundingRates(?string $future = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null): array
+    public function rates(?string $future = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null): array
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
 
@@ -108,5 +108,10 @@ class Futures extends HttpApi
         return HistoricalResponse::collection(
             response: $this->get("/indexes/{$marketName}/candles?", compact('resolution', 'start_time', 'end_time'))
         );
+    }
+
+    public function indexConstituents(): array
+    {
+        return $this->get('/index_constituents/{underlying}')->toArray();
     }
 }

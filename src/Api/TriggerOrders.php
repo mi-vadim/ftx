@@ -12,7 +12,7 @@ use FTX\Responses\Orders\TriggerOrderResponse;
 use FTX\Responses\Orders\TriggersResponse;
 use JsonException;
 
-class ConditionalOrders extends HttpApi
+class TriggerOrders extends HttpApi
 {
     /**
      * Get open trigger orders

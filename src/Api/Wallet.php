@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace FTX\Api;
 
 use FTX\Api\Support\PendingWithdrawalRequest;
+use FTX\Client\HttpClient;
 use FTX\Dictionaries\Endpoint;
 
 class Wallet extends HttpApi
@@ -95,6 +96,18 @@ class Wallet extends HttpApi
     public function createWithdrawalRequest(string $coin, float $size, string $address) : PendingWithdrawalRequest
     {
         return new PendingWithdrawalRequest($this, compact('coin', 'size', 'address'));
+    }
+
+    /**
+     * Get airdrops
+     *
+     * This endpoint provides you with updates to your AMPL balances based on AMPL rebases.
+     *
+     * @return array
+     */
+    public function airdrops(): array
+    {
+       return $this->get('/wallet/airdrops')->toArray();
     }
 
     /**

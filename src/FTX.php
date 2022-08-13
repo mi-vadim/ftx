@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace FTX;
 
-use FTX\Api\ConditionalOrders;
+use FTX\Api\TriggerOrders;
 use FTX\Api\SpotMargin;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
@@ -24,19 +24,19 @@ final class FTX
     private const BASE_URI = 'https://ftx.com/api';
 
     public function __construct(
-        protected HttpClient $client,
-        public readonly Subaccounts $subaccounts,
-        public readonly Markets $markets,
-        public readonly Futures $futures,
-        public readonly Account $account,
-        public readonly Wallet $wallet,
-        public readonly Orders $orders,
-        public readonly ConditionalOrders $conditionalOrders,
-        public readonly Fills $fills,
+        protected HttpClient            $client,
+        public readonly Subaccounts     $subaccounts,
+        public readonly Markets         $markets,
+        public readonly Futures         $futures,
+        public readonly Account         $account,
+        public readonly Wallet          $wallet,
+        public readonly Orders          $orders,
+        public readonly TriggerOrders   $conditionalOrders,
+        public readonly Fills           $fills,
         public readonly FundingPayments $funding,
         public readonly LeveragedTokens $leverageTokens,
-        public readonly Options $options,
-        public readonly SpotMargin $spot,
+        public readonly Options         $options,
+        public readonly SpotMargin      $spot,
     ){}
 
     public static function create(string $apiKey = null, string $apiSecret = null) : self
@@ -61,7 +61,7 @@ final class FTX
             account: new Account($httpClient),
             wallet: new Wallet($httpClient),
             orders: new Orders($httpClient),
-            conditionalOrders: new ConditionalOrders($httpClient),
+            conditionalOrders: new TriggerOrders($httpClient),
             fills: new Fills($httpClient),
             funding: new FundingPayments($httpClient),
             leverageTokens: new LeveragedTokens($httpClient),

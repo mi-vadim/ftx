@@ -2,7 +2,7 @@
 
 namespace FTX\Tests;
 
-use FTX\Api\ConditionalOrders;
+use FTX\Api\TriggerOrders;
 use FTX\Api\SpotMargin;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
