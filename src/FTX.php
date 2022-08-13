@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX;
 
+use FTX\Api\Support;
 use FTX\Api\TriggerOrders;
 use FTX\Api\SpotMargin;
 use Http\Discovery\Psr17FactoryDiscovery;
@@ -37,6 +38,7 @@ final class FTX
         public readonly LeveragedTokens $leverageTokens,
         public readonly Options         $options,
         public readonly SpotMargin      $spot,
+        public readonly Support         $support,
     ){}
 
     public static function create(string $apiKey = null, string $apiSecret = null) : self
@@ -67,6 +69,7 @@ final class FTX
             leverageTokens: new LeveragedTokens($httpClient),
             options: new Options($httpClient),
             spot: new SpotMargin($httpClient),
+            support: new Support($httpClient)
         );
     }
 
