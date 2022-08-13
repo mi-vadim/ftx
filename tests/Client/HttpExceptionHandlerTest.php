@@ -23,9 +23,9 @@ class HttpExceptionHandlerTest extends FTXTestCase
         $this->httpExceptionHandler = new HttpExceptionHandler();
     }
 
-    public function testSuccessfullResponseIsReturned()
+    public function testSuccessfullResponseIsReturned(): void
     {
-        $expected = new Response(200);
+        $expected = new Response(200, [], '[]');
 
         $actual = $this->httpExceptionHandler->transformResponseToException(
             new Request('GET', 'foo'),
@@ -35,20 +35,20 @@ class HttpExceptionHandlerTest extends FTXTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testNotFoundException()
+    public function testNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
         $this->httpExceptionHandler->transformResponseToException(
             new Request('GET', 'foo'),
-            new Response(404)
+            new Response(404, [], '[]')
         );
     }
 
-    public function testExceptionReturnsRequestAndResponse()
+    public function testExceptionReturnsRequestAndResponse(): void
     {
         $request = new Request('GET', 'foo');
-        $response = new Response(404);
+        $response = new Response(404, [], '[]');
 
         try {
             $this->httpExceptionHandler->transformResponseToException(
@@ -61,23 +61,23 @@ class HttpExceptionHandlerTest extends FTXTestCase
         }
     }
 
-    public function testUnauthorizedException()
+    public function testUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
         $this->httpExceptionHandler->transformResponseToException(
             new Request('GET', 'foo'),
-            new Response(401)
+            new Response(401, [], '[]')
         );
     }
 
-    public function testRateLimitException()
+    public function testRateLimitException(): void
     {
         $this->expectException(TooManyRequestsException::class);
 
         $this->httpExceptionHandler->transformResponseToException(
             new Request('GET', 'foo'),
-            new Response(429)
+            new Response(429, [], '[]')
         );
     }
 }

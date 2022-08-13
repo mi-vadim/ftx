@@ -2,6 +2,10 @@
 
 namespace FTX\Tests;
 
+use FTX\Api\Convert;
+use FTX\Api\Latency;
+use FTX\Api\Staking;
+use FTX\Api\Support;
 use FTX\Api\TriggerOrders;
 use FTX\Api\SpotMargin;
 use Http\Discovery\Psr17FactoryDiscovery;
@@ -31,7 +35,25 @@ class FTXTest extends FTXTestCase
             'https://ftx.com/api'
         );
 
-        $ftx = new FTX($http);
+        $ftx = new FTX(
+            client: $http,
+            subaccounts: new Subaccounts($http),
+            markets: new Markets($http),
+            futures: new Futures($http),
+            account: new Account($http),
+            wallet: new Wallet($http),
+            orders: new Orders($http),
+            conditionalOrders: new TriggerOrders($http),
+            fills: new Fills($http),
+            funding: new FundingPayments($http),
+            leverageTokens: new LeveragedTokens($http),
+            options: new Options($http),
+            spot: new SpotMargin($http),
+            staking: new Staking($http),
+            convert: new Convert($http),
+            latency: new Latency($http),
+            support: new Support($http)
+        );
 
         $this->assertEquals($ftx->getClient(), $http);
     }
