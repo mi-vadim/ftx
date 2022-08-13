@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX;
 
+use FTX\Api\Latency;
 use FTX\Api\Support;
 use FTX\Api\TriggerOrders;
 use FTX\Api\SpotMargin;
@@ -38,6 +39,7 @@ final class FTX
         public readonly LeveragedTokens $leverageTokens,
         public readonly Options         $options,
         public readonly SpotMargin      $spot,
+        public readonly Latency         $latency,
         public readonly Support         $support,
     ){}
 
@@ -69,6 +71,7 @@ final class FTX
             leverageTokens: new LeveragedTokens($httpClient),
             options: new Options($httpClient),
             spot: new SpotMargin($httpClient),
+            latency: new Latency($httpClient),
             support: new Support($httpClient)
         );
     }
