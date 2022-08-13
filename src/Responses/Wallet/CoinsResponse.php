@@ -19,12 +19,12 @@ class CoinsResponse extends AbstractResponser
         public readonly bool    $collateral,
         public readonly float   $collateralWeight,
         public readonly ?string $creditTo,
-        public readonly string  $erc20Contract,
+        public readonly ?string  $erc20Contract,
         public readonly bool    $fiat,
         public readonly bool    $isToken,
         public readonly array   $methods,
-        public readonly string  $splMint,
-        public readonly string  $trc20Contract,
+        public readonly ?string  $splMint,
+        public readonly ?string  $trc20Contract,
         public readonly bool    $usdFungible,
     )
     {

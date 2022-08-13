@@ -17,7 +17,6 @@ class Account extends HttpApi
      * Get account information
      *
      * @return AccountInfo
-     * @throws JsonException
      */
     public function info() : AccountInfo
     {
@@ -31,19 +30,16 @@ class Account extends HttpApi
      *
      * @param array $accounts
      * @param DateTimeInterface|null $endTime
-     * @return RequestSnapshot
-     * @throws JsonException
+     * @return array
      */
-    public function requestHistoricalBalances(array $accounts, ?DateTimeInterface $endTime): RequestSnapshot
+    public function requestHistoricalBalances(array $accounts, ?DateTimeInterface $endTime): array
     {
         [$endTime] = $this->transformTimestamps($endTime);
 
-        return RequestSnapshot::fromResponse(
-            response: $this->post(Endpoint::HISTORICAL_BALANCES->value, null, [
-                'accounts' => $accounts,
-                'end_time' => $endTime
-            ])
-        );
+        return $this->post(Endpoint::HISTORICAL_BALANCES->value, null, [
+            'accounts' => $accounts,
+            'endTime' => $endTime
+        ])->toArray();
     }
 
     /**
@@ -64,7 +60,6 @@ class Account extends HttpApi
      * Get all historical balances and positions snapshots
      *
      * @return Snapshot[]
-     * @throws JsonException
      */
     public function historicalBalances(): array
     {
@@ -77,12 +72,11 @@ class Account extends HttpApi
      * Get positions
      *
      * @param bool $showAvgPrice
-     * @return mixed
-     * @throws JsonException
+     * @return Position[]
      */
-    public function positions(bool $showAvgPrice = false): Position
+    public function positions(bool $showAvgPrice = false): array
     {
-        return Position::fromResponse(
+        return Position::collection(
             response: $this->get(Endpoint::POSITIONS->value, compact('showAvgPrice'))
         );
     }
@@ -92,7 +86,6 @@ class Account extends HttpApi
      *
      * @param int $leverage Desired account-wide leverage setting
      * @return array
-     * @throws JsonException
      */
     public function changeAccountLeverage(int $leverage): array
     {

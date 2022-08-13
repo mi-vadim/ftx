@@ -13,17 +13,17 @@ class OrderResponse extends AbstractResponser
         public readonly string $market,
         public readonly string $type,
         public readonly string $side,
-        public readonly float  $price,
+        public readonly ?float  $price,
         public readonly float  $size,
         public readonly float  $filledSize,
         public readonly float  $remainingSize,
-        public readonly float  $avgFillPrice,
+        public readonly ?float  $avgFillPrice,
         public readonly string $status,
         public readonly string $createdAt,
         public readonly bool   $reduceOnly,
         public readonly bool   $ioc,
         public readonly bool   $postOnly,
-        public readonly string $clientId,
+        public readonly ?string $clientId,
     )
     {
     }

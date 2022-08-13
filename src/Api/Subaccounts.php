@@ -6,6 +6,7 @@ namespace FTX\Api;
 use FTX\Dictionaries\Endpoint;
 use FTX\Responses\Subaccount\BalanceResponse;
 use FTX\Responses\Subaccount\SubaccountResponse;
+use FTX\Responses\Subaccount\TransferResponse;
 
 class Subaccounts extends HttpApi
 {
@@ -88,7 +89,8 @@ class Subaccounts extends HttpApi
      */
     public function transfer(string $coin, float $size, ?string $source = null, ?string $destination = null)
     {
-        return $this->post(Endpoint::SUBACCOUNTS_TRANSFER->value, null, compact('coin', 'size', 'source', 'destination'))
-            ->toArray();
+        return TransferResponse::fromResponse(
+            response: $this->post(Endpoint::SUBACCOUNTS_TRANSFER->value, null, compact('coin', 'size', 'source', 'destination'))
+        );
     }
 }

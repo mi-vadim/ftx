@@ -9,14 +9,14 @@ use FTX\Responses\AbstractResponser;
 class Snapshot extends AbstractResponser
 {
     private function __construct(
-        public readonly int    $id,
-        public readonly array  $accounts,
-        public readonly int    $time,
-        public readonly int    $endTime,
-        public readonly string $status,
-        public readonly bool   $error,
+        public readonly int     $id,
+        public readonly array   $accounts,
+        public readonly string  $time,
+        public readonly string  $endTime,
+        public readonly string  $status,
+        public readonly bool    $error,
         /** @var array<SnapshotResult> $results */
-        public readonly array  $results,
+        public readonly array   $results,
     )
     {
     }
@@ -29,7 +29,7 @@ class Snapshot extends AbstractResponser
                 account: $result['account'],
                 ticker: $result['ticker'],
                 size: $result['size'],
-                price: $result['price']
+                price: $result['price'] ?? 0.0
             );
         }
 
@@ -52,7 +52,7 @@ class Snapshot extends AbstractResponser
                 account: $result['account'],
                 ticker: $result['ticker'],
                 size: $result['size'],
-                price: $result['price']
+                price: $result['price'] ?? 0.0
             );
         }
 

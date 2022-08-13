@@ -110,8 +110,12 @@ class Futures extends HttpApi
         );
     }
 
-    public function indexConstituents(): array
+    /**
+     * @param string $marketName
+     * @return array
+     */
+    public function indexConstituents(string $marketName): array
     {
-        return $this->get('/index_constituents/{underlying}')->toArray();
+        return $this->get("/index_constituents/{$marketName}")->toArray();
     }
 }

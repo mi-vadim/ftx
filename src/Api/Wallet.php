@@ -6,6 +6,10 @@ namespace FTX\Api;
 use FTX\Api\Support\PendingWithdrawalRequest;
 use FTX\Client\HttpClient;
 use FTX\Dictionaries\Endpoint;
+use FTX\Responses\Wallet\BalanceResponse;
+use FTX\Responses\Wallet\CoinsResponse;
+use FTX\Responses\Wallet\DepositAddressResponse;
+use FTX\Responses\Wallet\DepositHistoryResponse;
 
 class Wallet extends HttpApi
 {
@@ -16,7 +20,9 @@ class Wallet extends HttpApi
      */
     public function coins()
     {
-        return $this->get(Endpoint::WALLET_COINS->value)->toArray();
+        return CoinsResponse::collection(
+            response: $this->get(Endpoint::WALLET_COINS->value)
+        );
     }
 
     /**
@@ -26,7 +32,9 @@ class Wallet extends HttpApi
      */
     public function balances()
     {
-        return $this->get(Endpoint::WALLET_BALANCES->value)->toArray();
+        return BalanceResponse::collection(
+            response: $this->get(Endpoint::WALLET_BALANCES->value)
+        );
     }
 
     /**
@@ -36,7 +44,13 @@ class Wallet extends HttpApi
      */
     public function allBalances()
     {
-        return $this->get(Endpoint::WALLET_ALL_BALANCES->value)->toArray();
+        $balances = [];
+        $response = $this->get(Endpoint::WALLET_ALL_BALANCES->value)->toArray();
+        foreach ($response as $account => $balance) {
+            $balances[$account] = array_map(fn($i) => BalanceResponse::fromArray($i), $balance);
+        }
+        
+        return $balances;
     }
 
     /**
@@ -48,8 +62,9 @@ class Wallet extends HttpApi
      */
     public function depositAddress(string $coin, ?string $method = null)
     {
-        return $this->get(Endpoint::WALLET_DEPOSIT_ADDRESS->withID($coin), compact('method'))
-            ->toArray();
+        return DepositAddressResponse::fromResponse(
+            response: $this->get(Endpoint::WALLET_DEPOSIT_ADDRESS->withID($coin), compact('method'))
+        );
     }
 
     /**
@@ -69,7 +84,9 @@ class Wallet extends HttpApi
      */
     public function depositsHistory()
     {
-        return $this->get(Endpoint::WALLET_DEPOSITS->value)->toArray();
+        return DepositHistoryResponse::collection(
+            response: $this->get(Endpoint::WALLET_DEPOSITS->value)
+        );
     }
 
     /**

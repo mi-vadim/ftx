@@ -31,7 +31,7 @@ class HistoricalResponse extends AbstractResponser
         );
     }
     
-    public static function fromArray(HttpResponse $response): static
+    public static function fromArray(array $response): static
     {
         return new self(
             startTime: $response['startTime'],

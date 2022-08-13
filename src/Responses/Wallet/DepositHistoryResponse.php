@@ -9,16 +9,16 @@ use FTX\Responses\AbstractResponser;
 class DepositHistoryResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly string $coin,
-        public readonly int    $confirmations,
-        public readonly string $confirmedTime,
-        public readonly float  $fee,
         public readonly int    $id,
-        public readonly string $sentTime,
-        public readonly string $size,
+        public readonly string $coin,
+        public readonly ?string $txid,
+        public readonly float $size,
+        public readonly float  $fee,
         public readonly string $status,
         public readonly string $time,
-        public readonly string $txid,
+        public readonly ?string $sentTime,
+        public readonly ?string $confirmedTime,
+        public readonly int    $confirmations,
         public readonly string $notes,
     )
     {
@@ -45,16 +45,16 @@ class DepositHistoryResponse extends AbstractResponser
     {
         return new self(
             coin: $response['coin'],
-            confirmations: $response['confirmations'],
-            confirmedTime: $response['confirmedTime'],
-            fee: $response['fee'],
+            confirmations: $response['confirmations'] ?? 0,
+            confirmedTime: $response['confirmedTime'] ?? null,
+            fee: $response['fee'] ?? 0.0,
             id: $response['id'],
-            sentTime: $response['sentTime'],
+            sentTime: $response['sentTime'] ?? null,
             size: $response['size'],
             status: $response['status'],
             time: $response['time'],
-            txid: $response['txid'],
-            notes: $response['notes'],
+            txid: $response['txid'] ?? null,
+            notes: $response['notes'] ?? '',
         );
     }
 }

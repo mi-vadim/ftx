@@ -17,7 +17,7 @@ class Fills extends HttpApi
      * @param DateTimeInterface|null $end_time
      * @param string|null $order
      * @param int|null $orderId
-     * @return mixed
+     * @return FillsResponse[]
      */
     public function all(
         ?string $market = null,
@@ -25,11 +25,11 @@ class Fills extends HttpApi
         ?DateTimeInterface $end_time = null,
         ?string $order = null,
         ?int $orderId = null
-    )
+    ) : array
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
 
-        return FillsResponse::fromResponse($this->get(
+        return FillsResponse::collection($this->get(
             Endpoint::FILLS->value,
             compact('market', 'start_time', 'end_time', 'order', 'orderId')
         ));

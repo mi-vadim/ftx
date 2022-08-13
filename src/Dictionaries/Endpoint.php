@@ -61,6 +61,8 @@ enum Endpoint : string
     case WALLET_WITHDRAWALS             = 'wallet/withdrawals';
     case WALLET_WITHDRAWAL_FEES         = 'wallet/withdrawal_fee';
 
+    case SUPPORT_TICKETS                = 'support/tickets';
+
     public function withID(string $id): string
     {
         return $this->value . '/' . $id;

@@ -4,68 +4,87 @@ declare(strict_types=1);
 namespace FTX\Api;
 
 use FTX\Dictionaries\Endpoint;
+use FTX\Responses\Spot\BorrowedHistoryResponse;
+use FTX\Responses\Spot\BorrowRatesResponse;
+use FTX\Responses\Spot\DailyBorrowedAmountResponse;
+use FTX\Responses\Spot\LendingHistoryResponse;
+use FTX\Responses\Spot\LendingInfoResponse;
+use FTX\Responses\Spot\LendingRatesResponse;
+use FTX\Responses\Spot\MarketInfoResponse;
 
 class SpotMargin extends HttpApi
 {
     /**
      * Get borrow rates
      *
-     * @return mixed
+     * @return BorrowRatesResponse[]
      */
-    public function borrowRates()
+    public function borrowRates(): array
     {
-        return $this->get(Endpoint::SPOT_MARGIN_BORROW_RATES->value)->toArray();
+        return BorrowRatesResponse::collection(
+            response: $this->get(Endpoint::SPOT_MARGIN_BORROW_RATES->value)
+        );
     }
 
     /**
      * Get lending rates
      *
-     * @return mixed
+     * @return LendingRatesResponse[]
      */
-    public function lendingRates()
+    public function lendingRates(): array
     {
-        return $this->get(Endpoint::SPOT_MARGIN_LENDING_RATES->value)->toArray();
+        return LendingRatesResponse::collection(
+            response: $this->get(Endpoint::SPOT_MARGIN_LENDING_RATES->value)
+        );
     }
 
     /**
      * Get daily borrowed amounts
      *
-     * @return mixed
+     * @return DailyBorrowedAmountResponse[]
      */
-    public function borrowSummary()
+    public function borrowSummary(): array
     {
-        return $this->get(Endpoint::SPOT_MARGIN_BORROW_SUMMARY->value)->toArray();
+        return DailyBorrowedAmountResponse::collection(
+            response: $this->get(Endpoint::SPOT_MARGIN_BORROW_SUMMARY->value)
+        );
     }
 
     /**
      * Get market info
      *
      * @param string $market
-     * @return mixed
+     * @return MarketInfoResponse[]
      */
-    public function marketInfo(string $market)
+    public function marketInfo(string $market): array
     {
-        return $this->get(Endpoint::SPOT_MARGIN_MARKET_INFO->value, compact('market'))->toArray();
+        return MarketInfoResponse::collection(
+            response: $this->get(Endpoint::SPOT_MARGIN_MARKET_INFO->value, compact('market'))
+        );
     }
 
     /**
      * Get my borrow history
      *
-     * @return mixed
+     * @return BorrowedHistoryResponse[]
      */
-    public function borrowHistory()
+    public function borrowHistory(): array
     {
-        return $this->get(Endpoint::SPOT_MARGIN_BORROW_HISTORY->value)->toArray();
+        return BorrowedHistoryResponse::collection(
+            response: $this->get(Endpoint::SPOT_MARGIN_BORROW_HISTORY->value)
+        );
     }
 
     /**
      * Get my lending history
      *
-     * @return mixed
+     * @return LendingHistoryResponse[]
      */
-    public function lendingHistory()
+    public function lendingHistory() : array
     {
-        return $this->get(Endpoint::SPOT_MARGIN_LENDING_HISTORY->value)->toArray();
+        return LendingHistoryResponse::collection(
+            response: $this->get(Endpoint::SPOT_MARGIN_LENDING_HISTORY->value)
+        );
     }
 
     /**
@@ -74,22 +93,26 @@ class SpotMargin extends HttpApi
      * @param string|null $coin
      * @param \DateTimeInterface|null $start_time
      * @param \DateTimeInterface|null $end_time
-     * @return mixed
+     * @return LendingHistoryResponse[]
      */
-    public function globalLendingHistory(?string $coin = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null)
+    public function globalLendingHistory(?string $coin = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null): array
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
-        return $this->get(Endpoint::SPOT_MARGIN_HISTORY->value, compact('coin', 'start_time', 'end_time'))->toArray();
+        return LendingHistoryResponse::collection(
+            response: $this->get(Endpoint::SPOT_MARGIN_HISTORY->value, compact('coin', 'start_time', 'end_time'))
+        );
     }
 
     /**
      * Get lending offers
      *
-     * @return mixed
+     * @return LendingInfoResponse[]
      */
-    public function offers()
+    public function offers(): array
     {
-        return $this->get(Endpoint::SPOT_MARGIN_OFFERS->value)->toArray();
+        return LendingInfoResponse::collection(
+            response: $this->get(Endpoint::SPOT_MARGIN_OFFERS->value)
+        );
     }
 
     /**
@@ -98,20 +121,24 @@ class SpotMargin extends HttpApi
      * @param string $coin
      * @param float $size
      * @param float $rate
-     * @return mixed
+     * @return array
      */
-    public function submitLendingOffer(string $coin, float $size, float $rate)
+    public function submitLendingOffer(string $coin, float $size, float $rate): array
     {
-        return $this->post(Endpoint::SPOT_MARGIN_OFFERS->value, null, compact('coin', 'size', 'rate'))->toArray();
+        return $this
+            ->post(Endpoint::SPOT_MARGIN_OFFERS->value, null, compact('coin', 'size', 'rate'))
+            ->toArray();
     }
 
     /**
      * Get lending info
      *
-     * @return mixed
+     * @return LendingInfoResponse[]
      */
-    public function lendingInfo()
+    public function lendingInfo(): array
     {
-        return $this->get(Endpoint::SPOT_MARGIN_LENDING_INFO->value)->toArray();
+        return LendingInfoResponse::collection(
+            response: $this->get(Endpoint::SPOT_MARGIN_LENDING_INFO->value)
+        );
     }
 }

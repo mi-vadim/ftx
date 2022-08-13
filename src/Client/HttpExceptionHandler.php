@@ -8,6 +8,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use FTX\Client\Exceptions\NotFoundException;
 use FTX\Client\Exceptions\UnauthorizedException;
+use FTX\Client\Exceptions\BadRequestException;
 
 class HttpExceptionHandler
 {
@@ -15,6 +16,10 @@ class HttpExceptionHandler
     {
         if(404 === $response->getStatusCode()) {
             throw new NotFoundException($this->getResponseMessage($response), $request, $response);
+        }
+
+        if(400 === $response->getStatusCode()) {
+            throw new BadRequestException($this->getResponseMessage($response), $request, $response);
         }
 
         if(401 === $response->getStatusCode()) {

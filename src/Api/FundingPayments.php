@@ -14,13 +14,13 @@ class FundingPayments extends HttpApi
      * @param string|null $future
      * @param \DateTimeInterface|null $start_time
      * @param \DateTimeInterface|null $end_time
-     * @return mixed
+     * @return FundingResponse[]
      */
-    public function all(?string $future = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null)
+    public function all(?string $future = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null): array
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
 
-        return FundingResponse::fromResponse(
+        return FundingResponse::collection(
             $this->get(Endpoint::FUNDING_PAYMENTS->value, compact('future', 'start_time', 'end_time'))
         );
     }

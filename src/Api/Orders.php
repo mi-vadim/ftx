@@ -5,6 +5,8 @@ namespace FTX\Api;
 
 use FTX\Api\Support\PendingOrder;
 use FTX\Dictionaries\Endpoint;
+use FTX\Responses\Orders\CancelOrderResponse;
+use FTX\Responses\Orders\OrderResponse;
 
 class Orders extends HttpApi
 {
@@ -16,7 +18,9 @@ class Orders extends HttpApi
      */
     public function open(?string $market = null)
     {
-        return $this->get(Endpoint::ORDERS->value, compact('market'))->toArray();
+        return OrderResponse::collection(
+            response: $this->get(Endpoint::ORDERS->value, compact('market'))
+        );
     }
 
     /**
@@ -31,7 +35,9 @@ class Orders extends HttpApi
     public function history(?string $market = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null, ?int $limit = null)
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
-        return $this->get(Endpoint::ORDERS_HISTORY->value, compact('market', 'start_time', 'end_time', 'limit'))->toArray();
+        return OrderResponse::collection(
+            response: $this->get(Endpoint::ORDERS_HISTORY->value, compact('market', 'start_time', 'end_time', 'limit'))
+        );
     }
 
     public function create(?array $attributes = []) : PendingOrder
@@ -43,78 +49,91 @@ class Orders extends HttpApi
      * Place order
      *
      * @param PendingOrder $pendingOrder
-     * @return array
+     * @return OrderResponse
      */
-    public function place(PendingOrder $pendingOrder)
+    public function place(PendingOrder $pendingOrder) : OrderResponse
     {
-        return $this->post(Endpoint::ORDERS->value, null, $pendingOrder->toArray())->toArray();
+        return OrderResponse::fromResponse(
+            response: $this->post(Endpoint::ORDERS->value, null, $pendingOrder->toArray())
+        );
     }
 
     /**
      * Modify order
      *
      * @param PendingOrder $pendingOrder
-     * @return array
+     * @return OrderResponse
      */
-    public function modify(PendingOrder $pendingOrder)
+    public function modify(PendingOrder $pendingOrder) : OrderResponse
     {
-        return $this->post(Endpoint::ORDERS->value, null, $pendingOrder->toArray())->toArray();
+        return OrderResponse::fromResponse(
+            response: $this->post(Endpoint::ORDERS->value, null, $pendingOrder->toArray())
+        );
     }
 
     /**
      * Modify by client id order
      *
      * @param PendingOrder $pendingOrder
-     * @return array
+     * @return OrderResponse
      */
-    public function modifyByClientID(PendingOrder $pendingOrder)
+    public function modifyByClientID(PendingOrder $pendingOrder) : OrderResponse
     {
-        return $this->post(Endpoint::ORDERS->value, null, $pendingOrder->toArray())->toArray();
+        return OrderResponse::fromResponse(
+            response: $this->post(Endpoint::ORDERS->value, null, $pendingOrder->toArray())
+        );
     }
 
     /**
      * Get order status
      *
      * @param string $orderId
-     * @return mixed
+     * @return OrderResponse
      */
-    public function status(string $orderId)
+    public function status(string $orderId) : OrderResponse
     {
-        return $this->get(Endpoint::ORDERS->withID($orderId));
+        return OrderResponse::fromResponse(
+            response: $this->get(Endpoint::ORDERS->withID($orderId))
+        );
     }
 
     /**
      * Get order status by client ID
      *
      * @param string $orderId
-     * @return mixed
+     * @return OrderResponse
      */
-    public function statusByClientID(string $orderId)
+    public function statusByClientID(string $orderId) : OrderResponse
     {
-        return $this->get(Endpoint::ORDERS->withID($orderId));
+        return OrderResponse::fromResponse(
+            response: $this->get(Endpoint::ORDERS->withID($orderId))
+        );
     }
 
     /**
      * Cancel order
      *
      * @param string $orderId
-     * @return mixed
+     * @return CancelOrderResponse
      */
-    public function cancel(string $orderId)
+    public function cancel(string $orderId) : CancelOrderResponse
     {
-        return $this->delete(Endpoint::ORDERS->withID($orderId));
+        return CancelOrderResponse::fromResponse(
+            $this->delete(Endpoint::ORDERS->withID($orderId))
+        );
     }
 
     /**
      * Cancel order by client id
      *
      * @param string $orderId
-     * @return mixed
+     * @return CancelOrderResponse
      */
-    public function cancelByClientID(string $orderId)
+    public function cancelByClientID(string $orderId) : CancelOrderResponse
     {
-        return $this->delete(Endpoint::ORDERS->withID($orderId))->toArray()
-            ;
+        return CancelOrderResponse::fromResponse(
+            response: $this->delete(Endpoint::ORDERS->withID($orderId))
+        );
     }
 
     /**
@@ -124,11 +143,12 @@ class Orders extends HttpApi
      * @param string|null $market
      * @param bool|null $conditionalOrdersOnly
      * @param bool|null $limitOrdersOnly
-     * @return mixed
+     * @return CancelOrderResponse
      */
-    public function cancelAll(?string $market = null, ?bool $conditionalOrdersOnly = null, ?bool $limitOrdersOnly = null)
+    public function cancelAll(?string $market = null, ?bool $conditionalOrdersOnly = null, ?bool $limitOrdersOnly = null) : CancelOrderResponse
     {
-        return $this->delete(Endpoint::ORDERS->value, null, compact('market', 'conditionalOrdersOnly', 'limitOrdersOnly'))
-            ->toArray();
+        return CancelOrderResponse::fromResponse(
+            response: $this->delete(Endpoint::ORDERS->value, null, compact('market', 'conditionalOrdersOnly', 'limitOrdersOnly'))
+        );
     }
 }

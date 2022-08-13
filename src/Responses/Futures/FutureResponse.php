@@ -9,16 +9,16 @@ use FTX\Responses\AbstractResponser;
 class FutureResponse extends AbstractResponser
 {
     private function __construct(
-        public readonly float  $ask,
-        public readonly float  $bid,
-        public readonly float  $change1h,
-        public readonly float  $change24h,
+        public readonly ?float  $ask,
+        public readonly ?float  $bid,
+        public readonly ?float  $change1h,
+        public readonly ?float  $change24h,
         public readonly string $description,
         public readonly bool   $enabled,
         public readonly bool   $expired,
-        public readonly string $expiry,
+        public readonly ?string $expiry,
         public readonly float  $index,
-        public readonly float  $last,
+        public readonly ?float  $last,
         public readonly float  $lowerBound,
         public readonly float  $mark,
         public readonly string $name,
@@ -64,8 +64,8 @@ class FutureResponse extends AbstractResponser
         return new self(
             ask: $response['ask'],
             bid: $response['bid'],
-            change1h: $response['change1h'],
-            change24h: $response['change24h'],
+            change1h: $response['change1h'] ?? null,
+            change24h: $response['change24h'] ?? null,
             description: $response['description'],
             enabled: $response['enabled'],
             expired: $response['expired'],

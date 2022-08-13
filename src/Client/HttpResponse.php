@@ -36,9 +36,11 @@ final class HttpResponse
         
 
         if (array_key_exists('result', $this->responseBody)) {
-            return $this->responseBody['result'] ?? [];
+            return is_array($this->responseBody['result'])
+                ? $this->responseBody['result']
+                : ['result' => $this->responseBody['result']];
         }
 
-        return $this->responseBody;
+        return !is_array($this->responseBody) ? [$this->responseBody] : $this->responseBody;
     }
 }
