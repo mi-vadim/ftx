@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Convert;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class QuoteStatusResponse extends AbstractResponser
@@ -22,19 +23,35 @@ class QuoteStatusResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            baseCoin: $data['baseCoin'],
-            cost: (float)$data['cost'],
-            expired: $data['expired'],
-            filled: $data['filled'],
-            id: $data['id'],
-            price: (float)$data['price'],
-            proceeds: (float)$data['proceeds'],
-            quoteCoin: $data['quoteCoin'],
-            side: $data['side'],
-            toCoin: $data['toCoin']
+            baseCoin:   $response->getAttribute('baseCoin'),
+            cost:       (float) $response->getAttribute('cost'),
+            expired:    $response->getAttribute('expired'),
+            filled:     $response->getAttribute('filled'),
+            id:         $response->getAttribute('id'),
+            price:      (float) $response->getAttribute('price'),
+            proceeds:   (float) $response->getAttribute('proceeds'),
+            quoteCoin:  $response->getAttribute('quoteCoin'),
+            side:       $response->getAttribute('side'),
+            toCoin:     $response->getAttribute('toCoin'),
+        );
+    }    
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            baseCoin:   $response['baseCoin'],
+            cost:       (float) $response['cost'],
+            expired:    $response['expired'],
+            filled:     $response['filled'],
+            id:         $response['id'],
+            price:      (float) $response['price'],
+            proceeds:   (float) $response['proceeds'],
+            quoteCoin:  $response['quoteCoin'],
+            side:       $response['side'],
+            toCoin:     $response['toCoin'],
         );
     }
 }

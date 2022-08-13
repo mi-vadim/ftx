@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Futures;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class FutureResponse extends AbstractResponser
@@ -32,29 +33,55 @@ class FutureResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            ask: $data['ask'],
-            bid: $data['bid'],
-            change1h: $data['change1h'],
-            change24h: $data['change24h'],
-            description: $data['description'],
-            enabled: $data['enabled'],
-            expired: $data['expired'],
-            expiry: $data['expiry'],
-            index: $data['index'],
-            last: $data['last'],
-            lowerBound: $data['lowerBound'],
-            mark: $data['mark'],
-            name: $data['name'],
-            perpetual: $data['perpetual'],
-            postOnly: $data['postOnly'],
-            priceIncrement: $data['priceIncrement'],
-            sizeIncrement: $data['sizeIncrement'],
-            underlying: $data['underlying'],
-            upperBound: $data['upperBound'],
-            type: $data['type']
+            ask: $response->getAttribute('ask'),
+            bid: $response->getAttribute('bid'),
+            change1h: $response->getAttribute('change1h'),
+            change24h: $response->getAttribute('change24h'),
+            description: $response->getAttribute('description'),
+            enabled: $response->getAttribute('enabled'),
+            expired: $response->getAttribute('expired'),
+            expiry: $response->getAttribute('expiry'),
+            index: $response->getAttribute('index'),
+            last: $response->getAttribute('last'),
+            lowerBound: $response->getAttribute('lowerBound'),
+            mark: $response->getAttribute('mark'),
+            name: $response->getAttribute('name'),
+            perpetual: $response->getAttribute('perpetual'),
+            postOnly: $response->getAttribute('postOnly'),
+            priceIncrement: $response->getAttribute('priceIncrement'),
+            sizeIncrement: $response->getAttribute('sizeIncrement'),
+            underlying: $response->getAttribute('underlying'),
+            upperBound: $response->getAttribute('upperBound'),
+            type: $response->getAttribute('type')
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            ask: $response['ask'],
+            bid: $response['bid'],
+            change1h: $response['change1h'],
+            change24h: $response['change24h'],
+            description: $response['description'],
+            enabled: $response['enabled'],
+            expired: $response['expired'],
+            expiry: $response['expiry'],
+            index: $response['index'],
+            last: $response['last'],
+            lowerBound: $response['lowerBound'],
+            mark: $response['mark'],
+            name: $response['name'],
+            perpetual: $response['perpetual'],
+            postOnly: $response['postOnly'],
+            priceIncrement: $response['priceIncrement'],
+            sizeIncrement: $response['sizeIncrement'],
+            underlying: $response['underlying'],
+            upperBound: $response['upperBound'],
+            type: $response['type']
         );
     }
 }

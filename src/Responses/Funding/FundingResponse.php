@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Funding;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class FundingResponse extends AbstractResponser
@@ -16,13 +17,23 @@ class FundingResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            future: $data['future'],
-            id: $data['id'],
-            payment: $data['payment'],
-            time: $data['time']
+            future: $response->getAttribute('future'),
+            id: $response->getAttribute('id'),
+            payment: $response->getAttribute('payment'),
+            time: $response->getAttribute('time'),
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            future: $response['future'],
+            id: $response['id'],
+            payment: $response['payment'],
+            time: $response['time'],
         );
     }
 }

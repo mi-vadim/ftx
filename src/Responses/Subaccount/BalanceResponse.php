@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Subaccount;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class BalanceResponse extends AbstractResponser
@@ -17,14 +18,25 @@ class BalanceResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            coin: $data['coin'],
-            free: $data['free'],
-            total: $data['total'],
-            spotBorrow: $data['spotBorrow'],
-            availableWithoutBorrow: $data['availableWithoutBorrow'],
+            coin: $response->getAttribute('coin'),
+            free: $response->getAttribute('free'),
+            total: $response->getAttribute('total'),
+            spotBorrow: $response->getAttribute('spotBorrow'),
+            availableWithoutBorrow: $response->getAttribute('availableWithoutBorrow'),
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            coin: $response['coin'],
+            free: $response['free'],
+            total: $response['total'],
+            spotBorrow: $response['spotBorrow'],
+            availableWithoutBorrow: $response['availableWithoutBorrow'],
         );
     }
 }

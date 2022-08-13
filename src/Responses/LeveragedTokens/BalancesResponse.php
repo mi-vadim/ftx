@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\LeveragedTokens;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class BalancesResponse extends AbstractResponser
@@ -14,11 +15,18 @@ class BalancesResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            token: $data['token'],
-            balance: $data['balance']
+            token: $response->getAttribute('token'),
+            balance: $response->getAttribute('balance')
+        );
+    }
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            token: $response['token'],
+            balance: $response['balance']
         );
     }
 }

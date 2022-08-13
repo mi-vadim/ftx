@@ -4,28 +4,35 @@ declare(strict_types=1);
 namespace FTX\Api;
 
 use FTX\Dictionaries\Endpoint;
+use FTX\Responses\Subaccount\BalanceResponse;
+use FTX\Responses\Subaccount\SubaccountResponse;
 
 class Subaccounts extends HttpApi
 {
     /**
      * Get all subaccounts
      *
-     * @return mixed
+     * @return SubaccountResponse[]
      */
-    public function all()
+    public function all(): array
     {
-        return $this->respond($this->get(Endpoint::SUBACCOUNTS->value));
+        return SubaccountResponse::collection(
+            $this->get(Endpoint::SUBACCOUNTS->value)
+        );
     }
 
     /**
      * Create subaccount
      *
      * @param string $nickname
-     * @return mixed
+     * @return SubaccountResponse
+     * @throws \JsonException
      */
-    public function create(string $nickname)
+    public function create(string $nickname): SubaccountResponse
     {
-        return $this->respond($this->post(Endpoint::SUBACCOUNTS->value, null, compact('nickname')));
+        return SubaccountResponse::fromResponse(
+            $this->post(Endpoint::SUBACCOUNTS->value, null, compact('nickname'))
+        );
     }
 
     /**
@@ -37,7 +44,8 @@ class Subaccounts extends HttpApi
      */
     public function rename(string $nickname, string $newNickname)
     {
-        return $this->respond($this->post(Endpoint::SUBACCOUNTS_UPDATE_NAME->value, null, compact('nickname', 'newNickname')));
+        return $this->post(Endpoint::SUBACCOUNTS_UPDATE_NAME->value, null, compact('nickname', 'newNickname'))
+            ->toArray();
     }
 
     /**
@@ -48,18 +56,25 @@ class Subaccounts extends HttpApi
      */
     public function remove(string $nickname)
     {
-        return $this->respond($this->delete(Endpoint::SUBACCOUNTS->value, null, compact('nickname')));
+        return $this->delete(Endpoint::SUBACCOUNTS->value, null, compact('nickname'))->toArray();
     }
 
     /**
      * Get subaccount balances
      *
      * @param string $nickname
-     * @return mixed
+     * @return BalanceResponse[]
      */
-    public function balances(string $nickname)
+    public function balances(string $nickname) : array
     {
-        return $this->respond($this->get(Endpoint::SUBACCOUNTS->withID($nickname) . '/balances'));
+        $balances = [];
+        $balancesResponse = $this->get(Endpoint::SUBACCOUNTS->withID($nickname) . '/balances')->toArray();
+
+        foreach ($balancesResponse as $balance) {
+            $balances[] = BalanceResponse::fromResponse($balance);
+        }
+
+        return $balances;
     }
 
     /**
@@ -73,6 +88,7 @@ class Subaccounts extends HttpApi
      */
     public function transfer(string $coin, float $size, ?string $source = null, ?string $destination = null)
     {
-        return $this->respond($this->post(Endpoint::SUBACCOUNTS_TRANSFER->value, null, compact('coin', 'size', 'source', 'destination')));
+        return $this->post(Endpoint::SUBACCOUNTS_TRANSFER->value, null, compact('coin', 'size', 'source', 'destination'))
+            ->toArray();
     }
 }

@@ -24,7 +24,19 @@ final class FTX
     private const BASE_URI = 'https://ftx.com/api';
 
     public function __construct(
-        protected HttpClient $client
+        protected HttpClient $client,
+        public readonly Subaccounts $subaccounts,
+        public readonly Markets $markets,
+        public readonly Futures $futures,
+        public readonly Account $account,
+        public readonly Wallet $wallet,
+        public readonly Orders $orders,
+        public readonly ConditionalOrders $conditionalOrders,
+        public readonly Fills $fills,
+        public readonly FundingPayments $funding,
+        public readonly LeveragedTokens $leverageTokens,
+        public readonly Options $options,
+        public readonly SpotMargin $spot,
     ){}
 
     public static function create(string $apiKey = null, string $apiSecret = null) : self
@@ -41,7 +53,21 @@ final class FTX
             $httpClient->authenticate($apiKey, $apiSecret);
         }
 
-        return new self($httpClient);
+        return new self(
+            client: $httpClient,
+            subaccounts: new Subaccounts($httpClient),
+            markets: new Markets($httpClient),
+            futures: new Futures($httpClient),
+            account: new Account($httpClient),
+            wallet: new Wallet($httpClient),
+            orders: new Orders($httpClient),
+            conditionalOrders: new ConditionalOrders($httpClient),
+            fills: new Fills($httpClient),
+            funding: new FundingPayments($httpClient),
+            leverageTokens: new LeveragedTokens($httpClient),
+            options: new Options($httpClient),
+            spot: new SpotMargin($httpClient),
+        );
     }
 
     public function getClient(): HttpClient
@@ -54,65 +80,5 @@ final class FTX
         $this->client->subaccount($subAccount);
 
         return $this;
-    }
-
-    public function subAccounts() : Subaccounts
-    {
-        return new Subaccounts($this->client);
-    }
-
-    public function markets() : Markets
-    {
-        return new Markets($this->client);
-    }
-
-    public function futures() : Futures
-    {
-        return new Futures($this->client);
-    }
-
-    public function account() : Account
-    {
-        return new Account($this->client);
-    }
-
-    public function wallet() : Wallet
-    {
-        return new Wallet($this->client);
-    }
-
-    public function orders() : Orders
-    {
-        return new Orders($this->client);
-    }
-
-    public function conditionalOrders() : ConditionalOrders
-    {
-        return new ConditionalOrders($this->client);
-    }
-
-    public function fills() : Fills
-    {
-        return new Fills($this->client);
-    }
-
-    public function fundingPayments() : FundingPayments
-    {
-        return new FundingPayments($this->client);
-    }
-
-    public function leveragedTokens() : LeveragedTokens
-    {
-        return new LeveragedTokens($this->client);
-    }
-
-    public function options() : Options
-    {
-        return new Options($this->client);
-    }
-
-    public function spotMargin() : SpotMargin
-    {
-        return new SpotMargin($this->client);
     }
 }

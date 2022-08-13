@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Support;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class MessageResponse extends AbstractResponser
@@ -17,14 +18,25 @@ class MessageResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            id: $data['id'],
-            message: $data['message'],
-            uploadedFileName: $data['uploadedFileName'],
-            authorIsCustomer: $data['authorIsCustomer'],
-            time: $data['time'],
+            id: $response->getAttribute('id'),
+            message: $response->getAttribute('message'),
+            uploadedFileName: $response->getAttribute('uploadedFileName'),
+            authorIsCustomer: $response->getAttribute('authorIsCustomer'),
+            time: $response->getAttribute('time'),
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            id: $response['id'],
+            message: $response['message'],
+            uploadedFileName: $response['uploadedFileName'],
+            authorIsCustomer: $response['authorIsCustomer'],
+            time: $response['time'],
         );
     }
 }

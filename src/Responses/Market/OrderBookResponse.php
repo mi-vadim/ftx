@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Market;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class OrderBookResponse extends AbstractResponser
@@ -14,11 +15,19 @@ class OrderBookResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            asks: $data['asks'],
-            bids: $data['bids']
+            asks: $response->getAttribute('asks'),
+            bids: $response->getAttribute('bids')
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            asks: $response['asks'],
+            bids: $response['bids']
         );
     }
 }

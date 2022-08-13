@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Wallet;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class CoinsResponse extends AbstractResponser
@@ -29,26 +30,49 @@ class CoinsResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            canDeposit: $data['canDeposit'],
-            canWithdraw: $data['canWithdraw'],
-            hasTag: $data['hasTag'],
-            id: $data['id'],
-            name: $data['name'],
-            bep2Asset: $data['bep2Asset'],
-            canConvert: $data['canConvert'],
-            collateral: $data['collateral'],
-            collateralWeight: $data['collateralWeight'],
-            creditTo: $data['creditTo'],
-            erc20Contract: $data['erc20Contract'],
-            fiat: $data['fiat'],
-            isToken: $data['isToken'],
-            methods: $data['methods'],
-            splMint: $data['splMint'],
-            trc20Contract: $data['trc20Contract'],
-            usdFungible: $data['usdFungible'],
+            canDeposit: $response->getAttribute('canDeposit'),
+            canWithdraw: $response->getAttribute('canWithdraw'),
+            hasTag: $response->getAttribute('hasTag'),
+            id: $response->getAttribute('id'),
+            name: $response->getAttribute('name'),
+            bep2Asset: $response->getAttribute('bep2Asset'),
+            canConvert: $response->getAttribute('canConvert'),
+            collateral: $response->getAttribute('collateral'),
+            collateralWeight: $response->getAttribute('collateralWeight'),
+            creditTo: $response->getAttribute('creditTo'),
+            erc20Contract: $response->getAttribute('erc20Contract'),
+            fiat: $response->getAttribute('fiat'),
+            isToken: $response->getAttribute('isToken'),
+            methods: $response->getAttribute('methods'),
+            splMint: $response->getAttribute('splMint'),
+            trc20Contract: $response->getAttribute('trc20Contract'),
+            usdFungible: $response->getAttribute('usdFungible'),
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            canDeposit: $response['canDeposit'],
+            canWithdraw: $response['canWithdraw'],
+            hasTag: $response['hasTag'],
+            id: $response['id'],
+            name: $response['name'],
+            bep2Asset: $response['bep2Asset'],
+            canConvert: $response['canConvert'],
+            collateral: $response['collateral'],
+            collateralWeight: $response['collateralWeight'],
+            creditTo: $response['creditTo'],
+            erc20Contract: $response['erc20Contract'],
+            fiat: $response['fiat'],
+            isToken: $response['isToken'],
+            methods: $response['methods'],
+            splMint: $response['splMint'],
+            trc20Contract: $response['trc20Contract'],
+            usdFungible: $response['usdFungible'],
         );
     }
 }

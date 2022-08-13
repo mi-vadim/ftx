@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Wallet;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class WithdrawalFeesResponse extends AbstractResponser
@@ -16,13 +17,23 @@ class WithdrawalFeesResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            method: $data['method'],
-            address: $data['address'],
-            fee: $data['fee'],
-            congested: $data['congested'],
+            method: $response->getAttribute('method'),
+            address: $response->getAttribute('address'),
+            fee: $response->getAttribute('fee'),
+            congested: $response->getAttribute('congested'),
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            method: $response['method'],
+            address: $response['address'],
+            fee: $response['fee'],
+            congested: $response['congested'],
         );
     }
 }

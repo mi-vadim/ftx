@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Spot;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class BorrowedHistoryResponse extends AbstractResponser
@@ -17,14 +18,25 @@ class BorrowedHistoryResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            coin: $data['coin'],
-            cost: $data['cost'],
-            rate: $data['rate'],
-            size: $data['size'],
-            time: $data['time'],
+            coin: $response->getAttribute('coin'),
+            cost: $response->getAttribute('cost'),
+            rate: $response->getAttribute('rate'),
+            size: $response->getAttribute('size'),
+            time: $response->getAttribute('time'),
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            coin: $response['coin'],
+            cost: $response['cost'],
+            rate: $response['rate'],
+            size: $response['size'],
+            time: $response['time'],
         );
     }
 }

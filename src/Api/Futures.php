@@ -5,39 +5,49 @@ namespace FTX\Api;
 
 use FTX\Api\Traits\TransformsTimestamps;
 use FTX\Dictionaries\Endpoint;
+use FTX\Responses\Futures\FundingRateResponse;
+use FTX\Responses\Futures\FutureResponse;
+use FTX\Responses\Futures\FutureStatResponse;
+use FTX\Responses\Futures\HistoricalResponse;
 
 class Futures extends HttpApi
 {
     /**
      * List all futures
      *
-     * @return mixed
+     * @return FutureResponse[]
      */
-    public function all()
+    public function all(): array
     {
-        return $this->respond($this->get(Endpoint::FUTURES->value));
+        return FutureResponse::collection(
+            response: $this->get(Endpoint::FUTURES->value)
+        );
     }
 
     /**
      * Get future
      *
      * @param string $future
-     * @return mixed
+     * @return FutureResponse
      */
-    public function future(string $future)
+    public function future(string $future) : FutureResponse
     {
-        return $this->respond($this->get(Endpoint::FUTURES->withID($future)));
+        return FutureResponse::fromResponse(
+            response: $this->get(Endpoint::FUTURES->withID($future))
+        );
     }
 
     /**
      * Get future stats
      *
      * @param string $future
-     * @return mixed
+     * @return FutureStatResponse
      */
-    public function stats(string $future)
+    public function stats(string $future): FutureStatResponse
     {
-        return $this->respond($this->get(Endpoint::FUTURES->withID($future) . '/stats'));
+        return FutureStatResponse::fromResponse(
+            response: $this->get(Endpoint::FUTURES->withID($future) . '/stats')
+        );
     }
 
     /**
@@ -46,13 +56,15 @@ class Futures extends HttpApi
      * @param string|null $future
      * @param \DateTimeInterface|null $start_time
      * @param \DateTimeInterface|null $end_time
-     * @return mixed
+     * @return FundingRateResponse[]
      */
-    public function fundingRates(?string $future = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null)
+    public function fundingRates(?string $future = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null): array
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
 
-        return $this->respond($this->get(Endpoint::FUNDING_RATES->value, compact('future', 'start_time', 'end_time')));
+        return FundingRateResponse::collection(
+            response: $this->get(Endpoint::FUNDING_RATES->value, compact('future', 'start_time', 'end_time'))
+        );
     }
 
     /**
@@ -63,19 +75,21 @@ class Futures extends HttpApi
      * @param string $indexName
      * @return mixed
      */
-    public function indexWeight(string $indexName)
+    public function indexWeight(string $indexName) : array
     {
-        return $this->respond($this->get("/indexes/{$indexName}/weights"));
+        return $this->get("/indexes/{$indexName}/weights")->toArray();
     }
 
     /**
      * Get expired futures
      *
-     * @return mixed
+     * @return FutureResponse[]
      */
-    public function expired(): mixed
+    public function expired(): array
     {
-        return $this->respond($this->get(Endpoint::EXPIRED_FUTURES->value));
+        return FutureResponse::collection(
+            response: $this->get(Endpoint::EXPIRED_FUTURES->value)
+        );
     }
 
     /**
@@ -85,12 +99,14 @@ class Futures extends HttpApi
      * @param int $resolution
      * @param \DateTimeInterface|null $start_time
      * @param \DateTimeInterface|null $end_time
-     * @return mixed
+     * @return HistoricalResponse[]
      */
-    public function historical(string $marketName, int $resolution = 300, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null)
+    public function historical(string $marketName, int $resolution = 300, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null): array
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
 
-        return $this->respond($this->get("/indexes/{$marketName}/candles?", compact('resolution', 'start_time', 'end_time')));
+        return HistoricalResponse::collection(
+            response: $this->get("/indexes/{$marketName}/candles?", compact('resolution', 'start_time', 'end_time'))
+        );
     }
 }

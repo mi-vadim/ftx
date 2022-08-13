@@ -21,8 +21,8 @@ class Account extends HttpApi
      */
     public function info() : AccountInfo
     {
-        return AccountInfo::fromArray(
-            $this->respond($this->get(Endpoint::ACCOUNTS->value))
+        return AccountInfo::fromResponse(
+            response: $this->get(Endpoint::ACCOUNTS->value)
         );
     }
 
@@ -37,13 +37,12 @@ class Account extends HttpApi
     public function requestHistoricalBalances(array $accounts, ?DateTimeInterface $endTime): RequestSnapshot
     {
         [$endTime] = $this->transformTimestamps($endTime);
-        $response = $this->post(Endpoint::HISTORICAL_BALANCES->value, null, [
-            'accounts' => $accounts,
-            'end_time' => $endTime
-        ]);
 
-        return RequestSnapshot::fromArray(
-            $this->respond($response)
+        return RequestSnapshot::fromResponse(
+            response: $this->post(Endpoint::HISTORICAL_BALANCES->value, null, [
+                'accounts' => $accounts,
+                'end_time' => $endTime
+            ])
         );
     }
 
@@ -56,10 +55,9 @@ class Account extends HttpApi
      */
     public function historicalBalance(int $requestID): Snapshot
     {
-        $endpoint = Endpoint::HISTORICAL_BALANCES;
-        $response = $this->respond($this->get($endpoint->withID((string) $requestID)));
-
-        return Snapshot::fromArray($response);
+        return Snapshot::fromResponse(
+            response: $this->get(Endpoint::HISTORICAL_BALANCES->withID((string) $requestID))
+        );
     }
 
     /**
@@ -70,13 +68,9 @@ class Account extends HttpApi
      */
     public function historicalBalances(): array
     {
-        $balances = [];
-        $response = $this->respond($this->get(Endpoint::HISTORICAL_BALANCES->value));
-        foreach ($response as $item) {
-            $balances[] = Snapshot::fromArray($item);
-        }
-
-        return $balances;
+        return Snapshot::collection(
+            response: $this->get(Endpoint::HISTORICAL_BALANCES->value)
+        );
     }
 
     /**
@@ -88,11 +82,9 @@ class Account extends HttpApi
      */
     public function positions(bool $showAvgPrice = false): Position
     {
-        $response = $this->respond(
-            $this->get(Endpoint::POSITIONS->value, compact('showAvgPrice'))
+        return Position::fromResponse(
+            response: $this->get(Endpoint::POSITIONS->value, compact('showAvgPrice'))
         );
-
-        return Position::fromArray($response);
     }
 
     /**
@@ -104,8 +96,8 @@ class Account extends HttpApi
      */
     public function changeAccountLeverage(int $leverage): array
     {
-        return $this->respond(
-            $this->post(Endpoint::ACCOUNTS_LEVERAGE->value, null, compact('leverage'))
-        );
+        return $this
+            ->post(Endpoint::ACCOUNTS_LEVERAGE->value, null, compact('leverage'))
+            ->toArray();
     }
 }

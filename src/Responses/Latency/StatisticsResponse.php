@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Latency;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class StatisticsResponse extends AbstractResponser
@@ -15,12 +16,21 @@ class StatisticsResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            bursty: $data['bursty'],
-            p50: (float)$data['p50'],
-            requestCount: $data['requestCount'],
+            bursty: $response->getAttribute('bursty'),
+            p50: (float)$response->getAttribute('p50'),
+            requestCount: $response->getAttribute('requestCount'),
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            bursty: $response['bursty'],
+            p50: (float)$response['p50'],
+            requestCount: $response['requestCount'],
         );
     }
 }

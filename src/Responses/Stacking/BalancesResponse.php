@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Stacking;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class BalancesResponse extends AbstractResponser
@@ -16,13 +17,23 @@ class BalancesResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            coin: $data['coin'],
-            lifetimeRewards: $data['lifetimeRewards'],
-            scheduledToUnstake: $data['scheduledToUnstake'],
-            staked: $data['staked'],
+            coin: $response->getAttribute('coin'),
+            lifetimeRewards: $response->getAttribute('lifetimeRewards'),
+            scheduledToUnstake: $response->getAttribute('scheduledToUnstake'),
+            staked: $response->getAttribute('staked'),
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            coin: $response['coin'],
+            lifetimeRewards: $response['lifetimeRewards'],
+            scheduledToUnstake: $response['scheduledToUnstake'],
+            staked: $response['staked'],
         );
     }
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Orders;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class PlaceTriggerOrderResponse extends AbstractResponser
@@ -28,25 +29,47 @@ class PlaceTriggerOrderResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            createdAt: $data['createdAt'],
-            future: $data['future'],
-            id: $data['id'],
-            market: $data['market'],
-            triggerPrice: $data['triggerPrice'],
-            orderId: $data['orderId'],
-            side: $data['side'],
-            size: $data['size'],
-            status: $data['status'],
-            type: $data['type'],
-            orderPrice: $data['orderPrice'],
-            error: $data['error'],
-            triggeredAt: $data['triggeredAt'],
-            reduceOnly: $data['reduceOnly'],
-            orderType: $data['orderType'],
-            retryUntilFilled: $data['retryUntilFilled'],
+            createdAt: $response->getAttribute('createdAt'),
+            future: $response->getAttribute('future'),
+            id: $response->getAttribute('id'),
+            market: $response->getAttribute('market'),
+            triggerPrice: $response->getAttribute('triggerPrice'),
+            orderId: $response->getAttribute('orderId'),
+            side: $response->getAttribute('side'),
+            size: $response->getAttribute('size'),
+            status: $response->getAttribute('status'),
+            type: $response->getAttribute('type'),
+            orderPrice: $response->getAttribute('orderPrice'),
+            error: $response->getAttribute('error'),
+            triggeredAt: $response->getAttribute('triggeredAt'),
+            reduceOnly: $response->getAttribute('reduceOnly'),
+            orderType: $response->getAttribute('orderType'),
+            retryUntilFilled: $response->getAttribute('retryUntilFilled'),
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            createdAt: $response['createdAt'],
+            future: $response['future'],
+            id: $response['id'],
+            market: $response['market'],
+            triggerPrice: $response['triggerPrice'],
+            orderId: $response['orderId'],
+            side: $response['side'],
+            size: $response['size'],
+            status: $response['status'],
+            type: $response['type'],
+            orderPrice: $response['orderPrice'],
+            error: $response['error'],
+            triggeredAt: $response['triggeredAt'],
+            reduceOnly: $response['reduceOnly'],
+            orderType: $response['orderType'],
+            retryUntilFilled: $response['retryUntilFilled'],
         );
     }
 }

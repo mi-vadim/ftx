@@ -4,48 +4,60 @@ declare(strict_types=1);
 namespace FTX\Api;
 
 use FTX\Dictionaries\Endpoint;
+use FTX\Responses\LeveragedTokens\BalancesResponse;
+use FTX\Responses\LeveragedTokens\TokenCreationResponse;
+use FTX\Responses\LeveragedTokens\TokenInfoResponse;
+use FTX\Responses\LeveragedTokens\TokenRedemptionResponse;
 
 class LeveragedTokens extends HttpApi
 {
     /**
      * List leveraged tokens
      *
-     * @return mixed
+     * @return TokenInfoResponse[]
      */
-    public function all()
+    public function all() : array
     {
-        return $this->respond($this->get(Endpoint::LEVERAGED_TOKENS->value));
+        return TokenInfoResponse::collection(
+            response: $this->get(Endpoint::LEVERAGED_TOKENS->value)
+        );
     }
 
     /**
      * Get token info
      *
      * @param string $token_name
-     * @return mixed
+     * @return TokenInfoResponse
      */
-    public function info(string $token_name)
+    public function info(string $token_name) : TokenInfoResponse
     {
-        return $this->respond($this->get(Endpoint::LEVERAGED_INFO->withID($token_name)));
+        return TokenInfoResponse::fromResponse(
+            response: $this->get(Endpoint::LEVERAGED_INFO->withID($token_name))
+        );
     }
 
     /**
      * Get leveraged token balances
      *
-     * @return mixed
+     * @return BalancesResponse[]
      */
-    public function balances()
+    public function balances() : array
     {
-        return $this->respond($this->get(Endpoint::LEVERAGED_TOKENS_BALANCES->value));
+        return BalancesResponse::collection(
+            response: $this->get(Endpoint::LEVERAGED_TOKENS_BALANCES->value)
+        );
     }
 
     /**
      * List leveraged token creation requests
      *
-     * @return mixed
+     * @return TokenCreationResponse
      */
-    public function creationRequests()
+    public function creationRequests() : TokenCreationResponse
     {
-        return $this->respond($this->get(Endpoint::LEVERAGED_TOKENS_CREATIONS->value));
+        return TokenCreationResponse::fromResponse(
+            response: $this->get(Endpoint::LEVERAGED_TOKENS_CREATIONS->value)
+        );
     }
 
     /**
@@ -53,21 +65,25 @@ class LeveragedTokens extends HttpApi
      *
      * @param string $token_name
      * @param float $size
-     * @return mixed
+     * @return TokenCreationResponse
      */
-    public function requestCreation(string $token_name, float $size)
+    public function requestCreation(string $token_name, float $size) : TokenCreationResponse
     {
-        return $this->respond($this->post(Endpoint::LEVERAGED_INFO->withID($token_name) . '/create', null, compact('size')));
+        return TokenCreationResponse::fromResponse(
+            response: $this->post(Endpoint::LEVERAGED_INFO->withID($token_name) . '/create', null, compact('size'))
+        );
     }
 
     /**
      * List leveraged token redemption requests
      *
-     * @return mixed
+     * @return TokenRedemptionResponse
      */
-    public function redemptions()
+    public function redemptions() : TokenRedemptionResponse
     {
-        return $this->respond($this->get(Endpoint::LEVERAGED_TOKENS_REDEMPTIONS->value));
+        return TokenRedemptionResponse::fromResponse(
+            response: $this->get(Endpoint::LEVERAGED_TOKENS_REDEMPTIONS->value)
+        );
     }
 
     /**
@@ -75,10 +91,12 @@ class LeveragedTokens extends HttpApi
      *
      * @param string $token_name
      * @param float $size
-     * @return mixed
+     * @return TokenRedemptionResponse
      */
-    public function requestRedemption(string $token_name, float $size)
+    public function requestRedemption(string $token_name, float $size): TokenRedemptionResponse
     {
-        return $this->respond($this->post(Endpoint::LEVERAGED_INFO->withID($token_name) . '/redeem', null, compact('size')));
+        return TokenRedemptionResponse::fromResponse(
+            response: $this->post(Endpoint::LEVERAGED_INFO->withID($token_name) . '/redeem', null, compact('size'))
+        );
     }
 }

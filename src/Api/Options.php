@@ -14,7 +14,7 @@ class Options extends HttpApi
      */
     public function requests()
     {
-        return $this->respond($this->get(Endpoint::OPTIONS_REQUESTS->value));
+        return $this->get(Endpoint::OPTIONS_REQUESTS->value)->toArray();
     }
 
     /**
@@ -24,7 +24,7 @@ class Options extends HttpApi
      */
     public function myRequests()
     {
-        return $this->respond($this->get(Endpoint::OPTIONS_MY_REQUESTS->value));
+        return $this->get(Endpoint::OPTIONS_MY_REQUESTS->value)->toArray();
     }
 
     /**
@@ -35,7 +35,7 @@ class Options extends HttpApi
      */
     public function cancelRequest(string $request_id)
     {
-        return $this->respond($this->delete(Endpoint::OPTIONS_REQUESTS->withID($request_id)));
+        return $this->delete(Endpoint::OPTIONS_REQUESTS->withID($request_id))->toArray();
     }
 
     /**
@@ -46,7 +46,7 @@ class Options extends HttpApi
      */
     public function quotesForRequest(string $request_id)
     {
-        return $this->respond($this->get(Endpoint::OPTIONS_REQUESTS->withID($request_id) . '/quotes'));
+        return $this->get(Endpoint::OPTIONS_REQUESTS->withID($request_id) . '/quotes')->toArray();
     }
 
     /**
@@ -58,7 +58,7 @@ class Options extends HttpApi
      */
     public function createQuote(string $request_id, float $price)
     {
-        return $this->respond($this->post(Endpoint::OPTIONS_REQUESTS->withID($request_id) . '/quotes', null, compact('price')));
+        return $this->post(Endpoint::OPTIONS_REQUESTS->withID($request_id) . '/quotes', null, compact('price'))->toArray();
     }
 
     /**
@@ -68,7 +68,7 @@ class Options extends HttpApi
      */
     public function myQuotes()
     {
-        return $this->respond($this->get(Endpoint::OPTIONS_MY_QUOTES->value));
+        return $this->get(Endpoint::OPTIONS_MY_QUOTES->value)->toArray();
     }
 
     /**
@@ -79,7 +79,7 @@ class Options extends HttpApi
      */
     public function cancelQuote(string $quote_id)
     {
-        return $this->respond($this->delete(Endpoint::OPTIONS_QUOTES->withID($quote_id)));
+        return $this->delete(Endpoint::OPTIONS_QUOTES->withID($quote_id))->toArray();
     }
 
     /**
@@ -90,7 +90,7 @@ class Options extends HttpApi
      */
     public function acceptQuote(string $quote_id)
     {
-        return $this->respond($this->post(Endpoint::OPTIONS_QUOTES->withID($quote_id) . '/accept'));
+        return $this->post(Endpoint::OPTIONS_QUOTES->withID($quote_id) . '/accept')->toArray();
     }
 
     /**
@@ -100,7 +100,7 @@ class Options extends HttpApi
      */
     public function accountInfo()
     {
-        return $this->respond($this->get(Endpoint::OPTIONS_ACCOUNT_INFO->value));
+        return $this->get(Endpoint::OPTIONS_ACCOUNT_INFO->value)->toArray();
     }
 
     /**
@@ -110,7 +110,7 @@ class Options extends HttpApi
      */
     public function positions()
     {
-        return $this->respond($this->get(Endpoint::OPTIONS_POSITIONS->value));
+        return $this->get(Endpoint::OPTIONS_POSITIONS->value)->toArray();
     }
 
     /**
@@ -121,7 +121,7 @@ class Options extends HttpApi
      */
     public function fills(int $limit = null)
     {
-        return $this->respond($this->get(Endpoint::OPTIONS_FILLS->value));
+        return $this->get(Endpoint::OPTIONS_FILLS->value)->toArray();
     }
 
     /**
@@ -136,6 +136,6 @@ class Options extends HttpApi
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
 
-        return $this->respond($this->get(Endpoint::OPTIONS_TRADES->value, compact('limit', 'start_time', 'end_time')));
+        return $this->get(Endpoint::OPTIONS_TRADES->value, compact('limit', 'start_time', 'end_time'))->toArray();
     }
 }

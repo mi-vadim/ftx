@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Account;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class Snapshot extends AbstractResponser
@@ -20,10 +21,10 @@ class Snapshot extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         $results = [];
-        foreach ($data['results'] as $result) {
+        foreach ($response->getAttribute('results') as $result) {
             $results[] = new SnapshotResult(
                 account: $result['account'],
                 ticker: $result['ticker'],
@@ -33,12 +34,35 @@ class Snapshot extends AbstractResponser
         }
 
         return new self(
-            id: $data['id'],
-            accounts: $data['accounts'],
-            time: $data['time'],
-            endTime: $data['endTime'],
-            status: $data['status'],
-            error: $data['error'],
+            id: $response->getAttribute('id'),
+            accounts: $response->getAttribute('accounts'),
+            time: $response->getAttribute('time'),
+            endTime: $response->getAttribute('endTime'),
+            status: $response->getAttribute('status'),
+            error: $response->getAttribute('error'),
+            results: $results,
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        $results = [];
+        foreach ($response['results'] as $result) {
+            $results[] = new SnapshotResult(
+                account: $result['account'],
+                ticker: $result['ticker'],
+                size: $result['size'],
+                price: $result['price']
+            );
+        }
+
+        return new self(
+            id: $response['id'],
+            accounts: $response['accounts'],
+            time: $response['time'],
+            endTime: $response['endTime'],
+            status: $response['status'],
+            error: $response['error'],
             results: $results,
         );
     }

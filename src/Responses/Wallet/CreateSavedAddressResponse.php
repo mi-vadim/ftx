@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Wallet;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class CreateSavedAddressResponse extends AbstractResponser
@@ -24,21 +25,39 @@ class CreateSavedAddressResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            address: $data['address'],
-            coin: $data['coin'],
-            fiat: $data['fiat'],
-            id: $data['id'],
-            isPrimetrust: $data['isPrimetrust'],
-            isSwipeCard: $data['isSwipeCard'],
-            lastUsedAt: $data['lastUsedAt'],
-            name: $data['name'],
-            tag: $data['tag'],
-            wallet: $data['wallet'],
-            whitelisted: $data['whitelisted'],
-            whitelistedAfter: $data['whitelistedAfter1']
+            address: $response->getAttribute('address'),
+            coin: $response->getAttribute('coin'),
+            fiat: $response->getAttribute('fiat'),
+            id: $response->getAttribute('id'),
+            isPrimetrust: $response->getAttribute('isPrimetrust'),
+            isSwipeCard: $response->getAttribute('isSwipeCard'),
+            lastUsedAt: $response->getAttribute('lastUsedAt'),
+            name: $response->getAttribute('name'),
+            tag: $response->getAttribute('tag'),
+            wallet: $response->getAttribute('wallet'),
+            whitelisted: $response->getAttribute('whitelisted'),
+            whitelistedAfter: $response->getAttribute('whitelistedAfter1')
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            address: $response['address'],
+            coin: $response['coin'],
+            fiat: $response['fiat'],
+            id: $response['id'],
+            isPrimetrust: $response['isPrimetrust'],
+            isSwipeCard: $response['isSwipeCard'],
+            lastUsedAt: $response['lastUsedAt'],
+            name: $response['name'],
+            tag: $response['tag'],
+            wallet: $response['wallet'],
+            whitelisted: $response['whitelisted'],
+            whitelistedAfter: $response['whitelistedAfter1']
         );
     }
 }

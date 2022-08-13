@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Orders;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class TriggerOrderResponse extends AbstractResponser
@@ -32,29 +33,55 @@ class TriggerOrderResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            createdAt: $data['createdAt'],
-            error: $data['error'],
-            future: $data['future'],
-            id: $data['id'],
-            market: $data['market'],
-            orderId: $data['orderId'],
-            orderPrice: $data['orderPrice'],
-            reduceOnly: $data['reduceOnly'],
-            side: $data['side'],
-            size: $data['size'],
-            status: $data['status'],
-            trailStart: $data['trailStart'],
-            trailValue: $data['trailValue'],
-            triggerPrice: $data['triggerPrice'],
-            triggeredAt: $data['triggeredAt'],
-            type: $data['type'],
-            orderType: $data['orderType'],
-            filledSize: $data['filledSize'],
-            avgFillPrice: $data['avgFillPrice'],
-            retryUntilFilled: $data['retryUntilFilled'],
+            createdAt: $response->getAttribute('createdAt'),
+            error: $response->getAttribute('error'),
+            future: $response->getAttribute('future'),
+            id: $response->getAttribute('id'),
+            market: $response->getAttribute('market'),
+            orderId: $response->getAttribute('orderId'),
+            orderPrice: $response->getAttribute('orderPrice'),
+            reduceOnly: $response->getAttribute('reduceOnly'),
+            side: $response->getAttribute('side'),
+            size: $response->getAttribute('size'),
+            status: $response->getAttribute('status'),
+            trailStart: $response->getAttribute('trailStart'),
+            trailValue: $response->getAttribute('trailValue'),
+            triggerPrice: $response->getAttribute('triggerPrice'),
+            triggeredAt: $response->getAttribute('triggeredAt'),
+            type: $response->getAttribute('type'),
+            orderType: $response->getAttribute('orderType'),
+            filledSize: $response->getAttribute('filledSize'),
+            avgFillPrice: $response->getAttribute('avgFillPrice'),
+            retryUntilFilled: $response->getAttribute('retryUntilFilled'),
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            createdAt: $response['createdAt'],
+            error: $response['error'],
+            future: $response['future'],
+            id: $response['id'],
+            market: $response['market'],
+            orderId: $response['orderId'],
+            orderPrice: $response['orderPrice'],
+            reduceOnly: $response['reduceOnly'],
+            side: $response['side'],
+            size: $response['size'],
+            status: $response['status'],
+            trailStart: $response['trailStart'],
+            trailValue: $response['trailValue'],
+            triggerPrice: $response['triggerPrice'],
+            triggeredAt: $response['triggeredAt'],
+            type: $response['type'],
+            orderType: $response['orderType'],
+            filledSize: $response['filledSize'],
+            avgFillPrice: $response['avgFillPrice'],
+            retryUntilFilled: $response['retryUntilFilled'],
         );
     }
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Orders;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class OrderResponse extends AbstractResponser
@@ -27,24 +28,45 @@ class OrderResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            id: $data['id'],
-            market: $data['market'],
-            type: $data['type'],
-            side: $data['side'],
-            price: $data['price'],
-            size: $data['size'],
-            filledSize: $data['filledSize'],
-            remainingSize: $data['remainingSize'],
-            avgFillPrice: $data['avgFillPrice'],
-            status: $data['status'],
-            createdAt: $data['createdAt'],
-            reduceOnly: $data['reduceOnly'],
-            ioc: $data['ioc'],
-            postOnly: $data['postOnly'],
-            clientId: $data['clientId'],
+            id: $response->getAttribute('id'),
+            market: $response->getAttribute('market'),
+            type: $response->getAttribute('type'),
+            side: $response->getAttribute('side'),
+            price: $response->getAttribute('price'),
+            size: $response->getAttribute('size'),
+            filledSize: $response->getAttribute('filledSize'),
+            remainingSize: $response->getAttribute('remainingSize'),
+            avgFillPrice: $response->getAttribute('avgFillPrice'),
+            status: $response->getAttribute('status'),
+            createdAt: $response->getAttribute('createdAt'),
+            reduceOnly: $response->getAttribute('reduceOnly'),
+            ioc: $response->getAttribute('ioc'),
+            postOnly: $response->getAttribute('postOnly'),
+            clientId: $response->getAttribute('clientId'),
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            id: $response['id'],
+            market: $response['market'],
+            type: $response['type'],
+            side: $response['side'],
+            price: $response['price'],
+            size: $response['size'],
+            filledSize: $response['filledSize'],
+            remainingSize: $response['remainingSize'],
+            avgFillPrice: $response['avgFillPrice'],
+            status: $response['status'],
+            createdAt: $response['createdAt'],
+            reduceOnly: $response['reduceOnly'],
+            ioc: $response['ioc'],
+            postOnly: $response['postOnly'],
+            clientId: $response['clientId'],
         );
     }
 }

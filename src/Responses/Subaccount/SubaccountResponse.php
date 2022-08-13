@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Subaccount;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class SubaccountResponse extends AbstractResponser
@@ -16,13 +17,23 @@ class SubaccountResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromArray(array $response): static
     {
         return new self(
-            nickname: $data['nickname'],
-            deletable: $data['deletable'],
-            editable: $data['editable'],
-            competition: $data['competition'],
+            nickname: $response['nickname'],
+            deletable: $response['deletable'],
+            editable: $response['editable'],
+            competition: $response['competition'],
+        );
+    }
+    
+    public static function fromResponse(HttpResponse $response): static
+    {
+        return new self(
+            nickname: $response->getAttribute('nickname'),
+            deletable: $response->getAttribute('deletable'),
+            editable: $response->getAttribute('editable'),
+            competition: $response->getAttribute('competition'),
         );
     }
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Wallet;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class RequestWithdrawalResponse extends AbstractResponser
@@ -21,18 +22,33 @@ class RequestWithdrawalResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            coin: $data['coin'],
-            address: $data['address'],
-            tag: $data['tag'],
-            fee: $data['fee'],
-            id: $data['id'],
-            size: $data['size'],
-            status: $data['status'],
-            time: $data['time'],
-            txid: $data['txid1']
+            coin: $response->getAttribute('coin'),
+            address: $response->getAttribute('address'),
+            tag: $response->getAttribute('tag'),
+            fee: $response->getAttribute('fee'),
+            id: $response->getAttribute('id'),
+            size: $response->getAttribute('size'),
+            status: $response->getAttribute('status'),
+            time: $response->getAttribute('time'),
+            txid: $response->getAttribute('txid1')
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            coin: $response['coin'],
+            address: $response['address'],
+            tag: $response['tag'],
+            fee: $response['fee'],
+            id: $response['id'],
+            size: $response['size'],
+            status: $response['status'],
+            time: $response['time'],
+            txid: $response['txid1']
         );
     }
 }

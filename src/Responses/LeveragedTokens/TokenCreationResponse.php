@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\LeveragedTokens;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class TokenCreationResponse extends AbstractResponser
@@ -23,19 +24,35 @@ class TokenCreationResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            id: $data['id'],
-            token: $data['token'],
-            requestedSize: $data['requestedSize'],
-            pending: $data['pending'],
-            createdSize: $data['createdSize'],
-            price: $data['price'],
-            cost: $data['cost'],
-            fee: $data['fee'],
-            requestedAt: $data['requestedAt'],
-            fulfilledAt: $data['fulfilledAt'],
+            id: $response->getAttribute('id'),
+            token: $response->getAttribute('token'),
+            requestedSize: $response->getAttribute('requestedSize'),
+            pending: $response->getAttribute('pending'),
+            createdSize: $response->getAttribute('createdSize'),
+            price: $response->getAttribute('price'),
+            cost: $response->getAttribute('cost'),
+            fee: $response->getAttribute('fee'),
+            requestedAt: $response->getAttribute('requestedAt'),
+            fulfilledAt: $response->getAttribute('fulfilledAt'),
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            id: $response['id'],
+            token: $response['token'],
+            requestedSize: $response['requestedSize'],
+            pending: $response['pending'],
+            createdSize: $response['createdSize'],
+            price: $response['price'],
+            cost: $response['cost'],
+            fee: $response['fee'],
+            requestedAt: $response['requestedAt'],
+            fulfilledAt: $response['fulfilledAt'],
         );
     }
 }

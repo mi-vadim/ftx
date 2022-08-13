@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Spot;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class MarketInfoResponse extends AbstractResponser
@@ -17,14 +18,25 @@ class MarketInfoResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            coin: $data['coin'],
-            borrowed: $data['borrowed'],
-            free: $data['freeå'],
-            estimatedRate: $data['estimatedRate'],
-            previousRate: $data['previousRate'],
+            coin: $response->getAttribute('coin'),
+            borrowed: $response->getAttribute('borrowed'),
+            free: $response->getAttribute('free'),
+            estimatedRate: $response->getAttribute('estimatedRate'),
+            previousRate: $response->getAttribute('previousRate'),
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            coin: $response['coin'],
+            borrowed: $response['borrowed'],
+            free: $response['free'],
+            estimatedRate: $response['estimatedRate'],
+            previousRate: $response['previousRate'],
         );
     }
 }

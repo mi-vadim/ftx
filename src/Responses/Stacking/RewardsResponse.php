@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Stacking;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class RewardsResponse extends AbstractResponser
@@ -17,14 +18,25 @@ class RewardsResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            coin: $data['coin'],
-            id: $data['id'],
-            size: $data['size'],
-            status: $data['status'],
-            time: $data['time'],
+            coin: $response->getAttribute('coin'),
+            id: $response->getAttribute('id'),
+            size: $response->getAttribute('size'),
+            status: $response->getAttribute('status'),
+            time: $response->getAttribute('time'),
+        );
+    }
+
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            coin: $response['coin'],
+            id: $response['id'],
+            size: $response['size'],
+            status: $response['status'],
+            time: $response['time'],
         );
     }
 }

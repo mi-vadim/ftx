@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Support;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class TicketResponse extends AbstractResponser
@@ -21,18 +22,33 @@ class TicketResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            id: $data['id'],
-            title: $data['title'],
-            time: $data['time'],
-            category: $data['category'],
-            status: $data['status'],
-            error: $data['error'],
-            fiatDeposit: $data['fiatDeposit'],
-            depositHelpRequest: $data['depositHelpRequest'],
-            autoExpireAt: $data['autoExpireAt'],
+            id: $response->getAttribute('id'),
+            title: $response->getAttribute('title'),
+            time: $response->getAttribute('time'),
+            category: $response->getAttribute('category'),
+            status: $response->getAttribute('status'),
+            error: $response->getAttribute('error'),
+            fiatDeposit: $response->getAttribute('fiatDeposit'),
+            depositHelpRequest: $response->getAttribute('depositHelpRequest'),
+            autoExpireAt: $response->getAttribute('autoExpireAt'),
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            id: $response['id'],
+            title: $response['title'],
+            time: $response['time'],
+            category: $response['category'],
+            status: $response['status'],
+            error: $response['error'],
+            fiatDeposit: $response['fiatDeposit'],
+            depositHelpRequest: $response['depositHelpRequest'],
+            autoExpireAt: $response['autoExpireAt'],
         );
     }
 }

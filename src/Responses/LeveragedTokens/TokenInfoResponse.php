@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\LeveragedTokens;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class TokenInfoResponse extends AbstractResponser
@@ -30,27 +31,51 @@ class TokenInfoResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            name: $data['name'],
-            description: $data['description'],
-            underlying: $data['underlying'],
-            leverage: $data['leverage'],
-            outstanding: $data['outstanding'],
-            pricePerShare: $data['pricePerShare'],
-            positionsPerShare: $data['positionsPerShare'],
-            basket: $data['basket'],
-            targetComponents: $data['targetComponents'],
-            totalNav: $data['totalNav'],
-            totalCollateral: $data['totalCollateral'],
-            currentLeverage: $data['currentLeverage'],
-            positionPerShare: $data['positionPerShare'],
-            underlyingMark: $data['underlyingMark'],
-            contractAddress: $data['contractAddress'],
-            change1h: $data['change1h'],
-            change24h: $data['change24h'],
-            changeBod: $data['changeBod'],
+            name: $response->getAttribute('name'),
+            description: $response->getAttribute('description'),
+            underlying: $response->getAttribute('underlying'),
+            leverage: $response->getAttribute('leverage'),
+            outstanding: $response->getAttribute('outstanding'),
+            pricePerShare: $response->getAttribute('pricePerShare'),
+            positionsPerShare: $response->getAttribute('positionsPerShare'),
+            basket: $response->getAttribute('basket'),
+            targetComponents: $response->getAttribute('targetComponents'),
+            totalNav: $response->getAttribute('totalNav'),
+            totalCollateral: $response->getAttribute('totalCollateral'),
+            currentLeverage: $response->getAttribute('currentLeverage'),
+            positionPerShare: $response->getAttribute('positionPerShare'),
+            underlyingMark: $response->getAttribute('underlyingMark'),
+            contractAddress: $response->getAttribute('contractAddress'),
+            change1h: $response->getAttribute('change1h'),
+            change24h: $response->getAttribute('change24h'),
+            changeBod: $response->getAttribute('changeBod'),
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            name: $response['name'],
+            description: $response['description'],
+            underlying: $response['underlying'],
+            leverage: $response['leverage'],
+            outstanding: $response['outstanding'],
+            pricePerShare: $response['pricePerShare'],
+            positionsPerShare: $response['positionsPerShare'],
+            basket: $response['basket'],
+            targetComponents: $response['targetComponents'],
+            totalNav: $response['totalNav'],
+            totalCollateral: $response['totalCollateral'],
+            currentLeverage: $response['currentLeverage'],
+            positionPerShare: $response['positionPerShare'],
+            underlyingMark: $response['underlyingMark'],
+            contractAddress: $response['contractAddress'],
+            change1h: $response['change1h'],
+            change24h: $response['change24h'],
+            changeBod: $response['changeBod'],
         );
     }
 }

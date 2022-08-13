@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Wallet;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class DepositAddressResponse extends AbstractResponser
@@ -15,11 +16,19 @@ class DepositAddressResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            address: $data['address'],
-            tag: $data['tag'],
+            address: $response->getAttribute('address'),
+            tag: $response->getAttribute('tag'),
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            address: $response['address'],
+            tag: $response['tag'],
         );
     }
 }

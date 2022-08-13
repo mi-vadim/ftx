@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Futures;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class HistoricalResponse extends AbstractResponser
@@ -18,15 +19,27 @@ class HistoricalResponse extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            startTime: $data['startTime'],
-            open: $data['open'],
-            close: $data['close'],
-            high: $data['high'],
-            low: $data['low'],
-            volume: $data['volume'],
+            startTime: $response->getAttribute('startTime'),
+            open: $response->getAttribute('open'),
+            close: $response->getAttribute('close'),
+            high: $response->getAttribute('high'),
+            low: $response->getAttribute('low'),
+            volume: $response->getAttribute('volume'),
+        );
+    }
+    
+    public static function fromArray(HttpResponse $response): static
+    {
+        return new self(
+            startTime: $response['startTime'],
+            open: $response['open'],
+            close: $response['close'],
+            high: $response['high'],
+            low: $response['low'],
+            volume: $response['volume'],
         );
     }
 }

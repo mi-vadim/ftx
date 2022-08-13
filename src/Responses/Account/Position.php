@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Account;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class Position extends AbstractResponser
@@ -32,29 +33,55 @@ class Position extends AbstractResponser
     {
     }
 
-    public static function fromArray(array $data): static
+    public static function fromArray(array $response): static
     {
         return new self(
-            cost: $data['cost'],
-            cumulativeBuySize: $data['cumulativeBuySize'],
-            cumulativeSellSize: $data['cumulativeSellSize'],
-            entryPrice: $data['entryPrice'],
-            estimatedLiquidationPrice: $data['estimatedLiquidationPrice'],
-            future: $data['future'],
-            initialMarginRequirement: $data['initialMarginRequirement'],
-            longOrderSize: $data['longOrderSize'],
-            maintenanceMarginRequirement: $data['maintenanceMarginRequirement'],
-            netSize: $data['netSize'],
-            openSize: $data['openSize'],
-            realizedPnl: $data['realizedPnl'],
-            recentAverageOpenPrice: $data['recentAverageOpenPrice'],
-            recentBreakEvenPrice: $data['recentBreakEvenPrice'],
-            recentPnl: $data['recentPnl'],
-            shortOrderSize: $data['shortOrderSize'],
-            side: $data['side'],
-            size: $data['size'],
-            unrealizedPnl: $data['unrealizedPnl'],
-            collateralUsed: $data['collateralUsed'],
+            cost: $response['cost'],
+            cumulativeBuySize: $response['cumulativeBuySize'],
+            cumulativeSellSize: $response['cumulativeSellSize'],
+            entryPrice: $response['entryPrice'],
+            estimatedLiquidationPrice: $response['estimatedLiquidationPrice'],
+            future: $response['future'],
+            initialMarginRequirement: $response['initialMarginRequirement'],
+            longOrderSize: $response['longOrderSize'],
+            maintenanceMarginRequirement: $response['maintenanceMarginRequirement'],
+            netSize: $response['netSize'],
+            openSize: $response['openSize'],
+            realizedPnl: $response['realizedPnl'],
+            recentAverageOpenPrice: $response['recentAverageOpenPrice'],
+            recentBreakEvenPrice: $response['recentBreakEvenPrice'],
+            recentPnl: $response['recentPnl'],
+            shortOrderSize: $response['shortOrderSize'],
+            side: $response['side'],
+            size: $response['size'],
+            unrealizedPnl: $response['unrealizedPnl'],
+            collateralUsed: $response['collateralUsed']
+        );
+    }
+
+    public static function fromResponse(HttpResponse $response): static
+    {
+        return new self(
+            cost: $response->getAttribute('cost'),
+            cumulativeBuySize: $response->getAttribute('cumulativeBuySize'),
+            cumulativeSellSize: $response->getAttribute('cumulativeSellSize'),
+            entryPrice: $response->getAttribute('entryPrice'),
+            estimatedLiquidationPrice: $response->getAttribute('estimatedLiquidationPrice'),
+            future: $response->getAttribute('future'),
+            initialMarginRequirement: $response->getAttribute('initialMarginRequirement'),
+            longOrderSize: $response->getAttribute('longOrderSize'),
+            maintenanceMarginRequirement: $response->getAttribute('maintenanceMarginRequirement'),
+            netSize: $response->getAttribute('netSize'),
+            openSize: $response->getAttribute('openSize'),
+            realizedPnl: $response->getAttribute('realizedPnl'),
+            recentAverageOpenPrice: $response->getAttribute('recentAverageOpenPrice'),
+            recentBreakEvenPrice: $response->getAttribute('recentBreakEvenPrice'),
+            recentPnl: $response->getAttribute('recentPnl'),
+            shortOrderSize: $response->getAttribute('shortOrderSize'),
+            side: $response->getAttribute('side'),
+            size: $response->getAttribute('size'),
+            unrealizedPnl: $response->getAttribute('unrealizedPnl'),
+            collateralUsed: $response->getAttribute('collateralUsed'),
         );
     }
 }

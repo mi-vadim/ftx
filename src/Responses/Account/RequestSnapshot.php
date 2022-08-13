@@ -3,19 +3,29 @@ declare(strict_types=1);
 
 namespace FTX\Responses\Account;
 
+use FTX\Client\HttpResponse;
 use FTX\Responses\AbstractResponser;
 
 class RequestSnapshot extends AbstractResponser
 {
-    public bool $status;
-    public float $result;
+    private function __construct(
+        public readonly bool $status,
+        public readonly float $result,
+    ){}
 
-    public static function fromArray(array $data): static
+    public static function fromResponse(HttpResponse $response): static
     {
-        $self = new self();
-        $self->status = (bool)$data['status'];
-        $self->result = (float)$data['result'];
-
-        return $self;
+        return new self(
+            status: $response->getAttribute('status'),
+            result: $response->getAttribute('result')
+        );
+    }
+    
+    public static function fromArray(array $response): static
+    {
+        return new self(
+            status: $response['status'],
+            result: $response['result']
+        );
     }
 }

@@ -6,6 +6,11 @@ namespace FTX\Api;
 use DateTimeInterface;
 use FTX\Api\Support\PendingConditionalOrder;
 use FTX\Dictionaries\Endpoint;
+use FTX\Responses\Orders\CancelOrderResponse;
+use FTX\Responses\Orders\PlaceTriggerOrderResponse;
+use FTX\Responses\Orders\TriggerOrderResponse;
+use FTX\Responses\Orders\TriggersResponse;
+use JsonException;
 
 class ConditionalOrders extends HttpApi
 {
@@ -14,11 +19,14 @@ class ConditionalOrders extends HttpApi
      *
      * @param string|null $market
      * @param string|null $type type of trigger order (stop, trailing_stop, or take_profit)
-     * @return mixed
+     * @return TriggerOrderResponse[]
+     * @throws JsonException
      */
-    public function open(?string $market = null, ?string $type = null)
+    public function open(?string $market = null, ?string $type = null): array
     {
-        return $this->respond($this->get(Endpoint::COND_ORDERS->value, compact('market', 'type')));
+        return TriggerOrderResponse::collection(
+            $this->get(Endpoint::COND_ORDERS->value, compact('market', 'type'))
+        );
     }
 
     /**
@@ -26,11 +34,14 @@ class ConditionalOrders extends HttpApi
      *
      * @param string|null $market
      * @param string|null $type type of trigger order (stop, trailing_stop, or take_profit)
-     * @return mixed
+     * @return TriggersResponse[]
+     * @throws JsonException
      */
-    public function tiggers(?string $market = null, ?string $type = null)
+    public function tiggers(?string $market = null, ?string $type = null): array
     {
-        return $this->respond($this->get(Endpoint::COND_ORDERS->value, compact('market', 'type')));
+        return TriggersResponse::collection(
+            $this->get(Endpoint::COND_ORDERS->value, compact('market', 'type'))
+        );
     }
 
     /**
@@ -43,7 +54,8 @@ class ConditionalOrders extends HttpApi
      * @param string|null $type
      * @param string|null $orderType
      * @param int|null $limit
-     * @return mixed
+     * @return TriggerOrderResponse[]
+     * @throws JsonException
      */
     public function history(
         ?string $market = null,
@@ -53,13 +65,15 @@ class ConditionalOrders extends HttpApi
         ?string $type = null,
         ?string $orderType = null,
         ?int $limit = null
-    )
+    ): array
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
-        return $this->respond($this->get(
-            Endpoint::COND_ORDERS_HISTORY->value,
-            compact('market', 'start_time', 'end_time', 'side', 'type', 'orderType', 'limit')
-        ));
+
+        return TriggerOrderResponse::collection(
+            response: $this->get(
+                Endpoint::COND_ORDERS_HISTORY->value,
+                compact('market', 'start_time', 'end_time', 'side', 'type', 'orderType', 'limit'))
+        );
     }
 
     public function create(?array $attributes = []) : PendingConditionalOrder
@@ -71,22 +85,28 @@ class ConditionalOrders extends HttpApi
      * Place trigger order
      *
      * @param PendingConditionalOrder $pendingOrder
-     * @return mixed
+     * @return PlaceTriggerOrderResponse
+     * @throws JsonException
      */
-    public function place(PendingConditionalOrder $pendingOrder)
+    public function place(PendingConditionalOrder $pendingOrder) : PlaceTriggerOrderResponse
     {
-        return $this->respond($this->post(Endpoint::COND_ORDERS->value, null, $pendingOrder->toArray()));
+        return PlaceTriggerOrderResponse::fromResponse(
+            response: $this->post(Endpoint::COND_ORDERS->value, null, $pendingOrder->toArray())
+        );
     }
 
     /**
      * Modify trigger order
      *
      * @param PendingConditionalOrder $pendingOrder
-     * @return mixed
+     * @return TriggerOrderResponse
+     * @throws JsonException
      */
-    public function modify(PendingConditionalOrder $pendingOrder)
+    public function modify(PendingConditionalOrder $pendingOrder) : TriggerOrderResponse
     {
-        return $this->respond($this->post(Endpoint::COND_ORDERS->value, null, $pendingOrder->toArray()));
+        return TriggerOrderResponse::fromResponse(
+            response: $this->post(Endpoint::COND_ORDERS->value, null, $pendingOrder->toArray())
+        );
     }
 
     /**
@@ -97,18 +117,21 @@ class ConditionalOrders extends HttpApi
      */
     public function status(string $orderId)
     {
-        return $this->respond($this->get(Endpoint::COND_ORDERS->withID($orderId)));
+        return $this->get(Endpoint::COND_ORDERS->withID($orderId))->toArray();
     }
 
     /**
      * Cancel open trigger order
      *
      * @param string $orderId
-     * @return mixed
+     * @return CancelOrderResponse
+     * @throws JsonException
      */
-    public function cancel(string $orderId)
+    public function cancel(string $orderId): CancelOrderResponse
     {
-        return $this->respond($this->delete(Endpoint::COND_ORDERS->withID($orderId)));
+        return CancelOrderResponse::fromResponse(
+            response: $this->delete(Endpoint::COND_ORDERS->withID($orderId))
+        );
     }
 
     /**
@@ -119,14 +142,21 @@ class ConditionalOrders extends HttpApi
      * @param string|null $market
      * @param bool|null $conditionalOrdersOnly
      * @param bool|null $limitOrdersOnly
-     * @return mixed
+     * @return CancelOrderResponse
+     * @throws JsonException
      */
-    public function cancelAll(?string $market = null, ?bool $conditionalOrdersOnly = true, ?bool $limitOrdersOnly = null) : mixed
+    public function cancelAll(
+        ?string $market = null,
+        ?bool $conditionalOrdersOnly = true,
+        ?bool $limitOrdersOnly = null
+    ) : CancelOrderResponse
     {
-        return $this->respond($this->delete(
-            Endpoint::ORDERS->value,
-            null,
-            compact('market', 'conditionalOrdersOnly', 'limitOrdersOnly'))
+        return CancelOrderResponse::fromResponse(
+            response: $this->delete(
+                endpoint: Endpoint::ORDERS->value,
+                parameters: null,
+                payload: compact('market', 'conditionalOrdersOnly', 'limitOrdersOnly')
+            )
         );
     }
 }

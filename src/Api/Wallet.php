@@ -15,7 +15,7 @@ class Wallet extends HttpApi
      */
     public function coins()
     {
-        return $this->respond($this->get(Endpoint::WALLET_COINS->value));
+        return $this->get(Endpoint::WALLET_COINS->value)->toArray();
     }
 
     /**
@@ -25,7 +25,7 @@ class Wallet extends HttpApi
      */
     public function balances()
     {
-        return $this->respond($this->get(Endpoint::WALLET_BALANCES->value));
+        return $this->get(Endpoint::WALLET_BALANCES->value)->toArray();
     }
 
     /**
@@ -35,7 +35,7 @@ class Wallet extends HttpApi
      */
     public function allBalances()
     {
-        return $this->respond($this->get(Endpoint::WALLET_ALL_BALANCES->value));
+        return $this->get(Endpoint::WALLET_ALL_BALANCES->value)->toArray();
     }
 
     /**
@@ -47,7 +47,8 @@ class Wallet extends HttpApi
      */
     public function depositAddress(string $coin, ?string $method = null)
     {
-        return $this->respond($this->get(Endpoint::WALLET_DEPOSIT_ADDRESS->withID($coin), compact('method')));
+        return $this->get(Endpoint::WALLET_DEPOSIT_ADDRESS->withID($coin), compact('method'))
+            ->toArray();
     }
 
     /**
@@ -57,7 +58,7 @@ class Wallet extends HttpApi
      */
     public function addressesList()
     {
-        return $this->respond($this->post('/wallet/deposit_address/list'));
+        return $this->post('/wallet/deposit_address/list')->toArray();
     }
 
     /**
@@ -67,7 +68,7 @@ class Wallet extends HttpApi
      */
     public function depositsHistory()
     {
-        return $this->respond($this->get(Endpoint::WALLET_DEPOSITS->value));
+        return $this->get(Endpoint::WALLET_DEPOSITS->value)->toArray();
     }
 
     /**
@@ -77,7 +78,7 @@ class Wallet extends HttpApi
      */
     public function withdrawalsHistory()
     {
-        return $this->respond($this->get(Endpoint::WALLET_WITHDRAWALS->value));
+        return $this->get(Endpoint::WALLET_WITHDRAWALS->value)->toArray();
     }
 
     /**
@@ -88,7 +89,7 @@ class Wallet extends HttpApi
      */
     public function withdraw(PendingWithdrawalRequest $pendingWithdrawalRequest)
     {
-        return $this->respond($this->post(Endpoint::WALLET_WITHDRAWALS->value, null, $pendingWithdrawalRequest->toArray()));
+        return $this->post(Endpoint::WALLET_WITHDRAWALS->value, null, $pendingWithdrawalRequest->toArray())->toArray();
     }
 
     public function createWithdrawalRequest(string $coin, float $size, string $address) : PendingWithdrawalRequest
@@ -104,7 +105,7 @@ class Wallet extends HttpApi
      */
     public function fees(PendingWithdrawalRequest $pendingWithdrawalRequest)
     {
-        return $this->respond($this->get(Endpoint::WALLET_WITHDRAWAL_FEES->value, $pendingWithdrawalRequest->toArray()));
+        return $this->get(Endpoint::WALLET_WITHDRAWAL_FEES->value, $pendingWithdrawalRequest->toArray())->toArray();
     }
 
     /**
@@ -114,28 +115,28 @@ class Wallet extends HttpApi
      */
     public function savedAddresses()
     {
-        return $this->respond($this->get('/wallet/saved_addresses'));
+        return $this->get('/wallet/saved_addresses')->toArray() ;
     }
 
     /**
      * Create saved addresses
      *
-     * @return void
+     * @return array
      */
     public function createSavedAddress()
     {
-        return $this->respond($this->post(Endpoint::SPOT_MARGIN_LENDING_HISTORY->value));
+        return $this->post(Endpoint::SPOT_MARGIN_LENDING_HISTORY->value)->toArray();
     }
 
     /**
      * Delete saved addresses
      *
      * @param string $savedAddressId
-     * @return void
+     * @return array
      */
     public function deleteSavedAddress(string $savedAddressId)
     {
-        $this->respond($this->delete("/wallet/saved_addresses/{$savedAddressId}"));
+        return $this->delete("/wallet/saved_addresses/{$savedAddressId}")->toArray();
     }
 
 }
