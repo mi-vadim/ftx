@@ -16,8 +16,8 @@ class FillsResponse extends AbstractResponser
         public readonly int    $id,
         public readonly string $liquidity,
         public readonly string $market,
-        public readonly string $baseCurrency,
-        public readonly string $quoteCurrency,
+        public readonly ?string $baseCurrency,
+        public readonly ?string $quoteCurrency,
         public readonly int    $orderId,
         public readonly int    $tradeId,
         public readonly float  $price,
@@ -50,7 +50,7 @@ class FillsResponse extends AbstractResponser
             type: $response->getAttribute('type1'),
         );
     }
-    
+
     public static function fromArray(array $response): static
     {
         return new self(
@@ -69,7 +69,7 @@ class FillsResponse extends AbstractResponser
             side: $response['side'],
             size: (float)$response['size'],
             time: $response['time'],
-            type: $response['type1'],
+            type: $response['type'],
         );
     }
 }
