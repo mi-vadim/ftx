@@ -30,9 +30,9 @@ class Orders extends HttpApi
      * @param \DateTimeInterface|null $start_time
      * @param \DateTimeInterface|null $end_time
      * @param int|null $limit
-     * @return mixed
+     * @return OrderResponse[]
      */
-    public function history(?string $market = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null, ?int $limit = null)
+    public function history(?string $market = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null, ?int $limit = null): array
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
         return OrderResponse::collection(
