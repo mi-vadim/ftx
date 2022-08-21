@@ -30,14 +30,22 @@ class Orders extends HttpApi
      * @param \DateTimeInterface|null $start_time
      * @param \DateTimeInterface|null $end_time
      * @param int|null $limit
-     * @return mixed
+     * @return OrderResponse[]
      */
-    public function history(?string $market = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null, ?int $limit = null)
+    public function history(?string $market = null, ?\DateTimeInterface $start_time = null, ?\DateTimeInterface $end_time = null, ?int $limit = null): array
     {
         [$start_time, $end_time] = $this->transformTimestamps($start_time, $end_time);
-        return OrderResponse::collection(
-            response: $this->get(Endpoint::ORDERS_HISTORY->value, compact('market', 'start_time', 'end_time', 'limit'))
-        );
+
+        $responses = [];
+
+        do {
+            $response = $this->get(Endpoint::ORDERS_HISTORY->value, compact('market', 'start_time', 'end_time', 'limit'));
+            $collection = OrderResponse::collection(response: $response);
+            $responses[] = $collection;
+            $end_time = min(array_map(fn($i) => strtotime($i->createdAt), $collection));
+        } while ($response->hasMoreData());
+
+        return array_merge(...$responses);
     }
 
     public function create(?array $attributes = []) : PendingOrder

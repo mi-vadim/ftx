@@ -43,4 +43,22 @@ final class HttpResponse
 
         return !is_array($this->responseBody) ? [$this->responseBody] : $this->responseBody;
     }
+
+    public function hasMoreData() : bool
+    {
+        if (empty($this->responseBody)) {
+            try {
+                $this->responseBody = json_decode(
+                    $this->response->getBody()->getContents(),
+                    true,
+                    512,
+                    JSON_THROW_ON_ERROR
+                );
+            } catch (\JsonException $exception) {
+                $this->responseBody = [];
+            }
+        }
+
+        return $this->responseBody['hasMoreData'] ?? false;
+    }
 }
