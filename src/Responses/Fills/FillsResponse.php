@@ -12,7 +12,7 @@ class FillsResponse extends AbstractResponser
         public readonly float  $fee,
         public readonly string $feeCurrency,
         public readonly float  $feeRate,
-        public readonly string $future,
+        public readonly ?string $future,
         public readonly int    $id,
         public readonly string $liquidity,
         public readonly string $market,
