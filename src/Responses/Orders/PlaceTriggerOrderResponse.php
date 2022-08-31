@@ -14,14 +14,14 @@ class PlaceTriggerOrderResponse extends AbstractResponser
         public readonly int    $id,
         public readonly string $market,
         public readonly float  $triggerPrice,
-        public readonly int    $orderId,
+        public readonly ?int    $orderId,
         public readonly string $side,
         public readonly float  $size,
         public readonly string $status,
         public readonly string $type,
         public readonly float  $orderPrice,
-        public readonly string $error,
-        public readonly string $triggeredAt,
+        public readonly ?string $error,
+        public readonly ?string $triggeredAt,
         public readonly bool   $reduceOnly,
         public readonly string $orderType,
         public readonly bool   $retryUntilFilled,
@@ -50,7 +50,7 @@ class PlaceTriggerOrderResponse extends AbstractResponser
             retryUntilFilled: $response->getAttribute('retryUntilFilled'),
         );
     }
-    
+
     public static function fromArray(array $response): static
     {
         return new self(
