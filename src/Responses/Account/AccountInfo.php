@@ -16,7 +16,7 @@ class AccountInfo extends AbstractResponser
         public readonly bool   $liquidating,
         public readonly float  $maintenanceMarginRequirement,
         public readonly float  $makerFee,
-        public readonly float  $marginFraction,
+        public readonly ?float  $marginFraction,
         public readonly float  $openMarginFraction,
         public readonly float  $takerFee,
         public readonly float  $totalAccountValue,
