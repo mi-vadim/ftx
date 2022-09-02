@@ -9,20 +9,20 @@ use FTX\Responses\AbstractResponser;
 class AccountInfo extends AbstractResponser
 {
     public function __construct(
-        public readonly bool   $backstopProvider,
-        public readonly float  $collateral,
-        public readonly float  $freeCollateral,
-        public readonly float  $initialMarginRequirement,
-        public readonly bool   $liquidating,
-        public readonly float  $maintenanceMarginRequirement,
-        public readonly float  $makerFee,
+        public readonly ?bool   $backstopProvider,
+        public readonly ?float  $collateral,
+        public readonly ?float  $freeCollateral,
+        public readonly ?float  $initialMarginRequirement,
+        public readonly ?bool   $liquidating,
+        public readonly ?float  $maintenanceMarginRequirement,
+        public readonly ?float  $makerFee,
         public readonly ?float  $marginFraction,
-        public readonly float  $openMarginFraction,
-        public readonly float  $takerFee,
-        public readonly float  $totalAccountValue,
-        public readonly float  $totalPositionSize,
-        public readonly string $username,
-        public readonly float  $leverage,
+        public readonly ?float  $openMarginFraction,
+        public readonly ?float  $takerFee,
+        public readonly ?float  $totalAccountValue,
+        public readonly ?float  $totalPositionSize,
+        public readonly ?string $username,
+        public readonly ?float  $leverage,
     )
     {
     }
