@@ -9,12 +9,12 @@ use FTX\Responses\AbstractResponser;
 class BalanceResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly string $coin,
-        public readonly float  $free,
-        public readonly float  $spotBorrow,
-        public readonly float  $total,
-        public readonly float  $usdValue,
-        public readonly float  $availableWithoutBorrow,
+        public readonly ?string $coin,
+        public readonly ?float  $free,
+        public readonly ?float  $spotBorrow,
+        public readonly ?float  $total,
+        public readonly ?float  $usdValue,
+        public readonly ?float  $availableWithoutBorrow,
     )
     {
     }

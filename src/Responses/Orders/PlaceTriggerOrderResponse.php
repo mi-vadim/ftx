@@ -9,22 +9,22 @@ use FTX\Responses\AbstractResponser;
 class PlaceTriggerOrderResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly string $createdAt,
-        public readonly string $future,
-        public readonly int    $id,
-        public readonly string $market,
-        public readonly float  $triggerPrice,
+        public readonly ?string $createdAt,
+        public readonly ?string $future,
+        public readonly ?int    $id,
+        public readonly ?string $market,
+        public readonly ?float  $triggerPrice,
         public readonly ?int    $orderId,
-        public readonly string $side,
-        public readonly float  $size,
-        public readonly string $status,
-        public readonly string $type,
-        public readonly float  $orderPrice,
+        public readonly ?string $side,
+        public readonly ?float  $size,
+        public readonly ?string $status,
+        public readonly ?string $type,
+        public readonly ?float  $orderPrice,
         public readonly ?string $error,
         public readonly ?string $triggeredAt,
-        public readonly bool   $reduceOnly,
-        public readonly string $orderType,
-        public readonly bool   $retryUntilFilled,
+        public readonly ?bool   $reduceOnly,
+        public readonly ?string $orderType,
+        public readonly ?bool   $retryUntilFilled,
     )
     {
     }

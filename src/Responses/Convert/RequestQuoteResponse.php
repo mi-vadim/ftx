@@ -9,7 +9,7 @@ use FTX\Responses\AbstractResponser;
 class RequestQuoteResponse extends AbstractResponser
 {
     private function __construct(
-        public readonly int $quoteId
+        public readonly ?int $quoteId
     )
     {
     }

@@ -9,12 +9,12 @@ use FTX\Responses\AbstractResponser;
 class UnstakeResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly string $coin,
-        public readonly string $createdAt,
-        public readonly int    $id,
-        public readonly float  $size,
-        public readonly string $status,
-        public readonly string $unlockAt,
+        public readonly ?string $coin,
+        public readonly ?string $createdAt,
+        public readonly ?int    $id,
+        public readonly ?float  $size,
+        public readonly ?string $status,
+        public readonly ?string $unlockAt,
     )
     {
     }

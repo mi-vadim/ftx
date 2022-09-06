@@ -10,8 +10,8 @@ class ListDepositAddressesResponse extends AbstractResponser
 {
 
     public function __construct(
-        public readonly string  $coin,
-        public readonly string  $address,
+        public readonly ?string  $coin,
+        public readonly ?string  $address,
         public readonly ?string $tag
     )
     {

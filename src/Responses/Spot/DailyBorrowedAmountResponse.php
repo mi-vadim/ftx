@@ -9,8 +9,8 @@ use FTX\Responses\AbstractResponser;
 class DailyBorrowedAmountResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly string $coin,
-        public readonly float  $size,
+        public readonly ?string $coin,
+        public readonly ?float  $size,
     )
     {
     }

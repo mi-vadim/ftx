@@ -9,11 +9,11 @@ use FTX\Responses\AbstractResponser;
 class MessageResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly int    $id,
-        public readonly string $message,
-        public readonly string $uploadedFileName,
-        public readonly bool   $authorIsCustomer,
-        public readonly string $time
+        public readonly ?int    $id,
+        public readonly ?string $message,
+        public readonly ?string $uploadedFileName,
+        public readonly ?bool   $authorIsCustomer,
+        public readonly ?string $time
     )
     {
     }

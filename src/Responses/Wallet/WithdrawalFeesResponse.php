@@ -9,10 +9,10 @@ use FTX\Responses\AbstractResponser;
 class WithdrawalFeesResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly string $method,
-        public readonly string $address,
-        public readonly float  $fee,
-        public readonly bool   $congested,
+        public readonly ?string $method,
+        public readonly ?string $address,
+        public readonly ?float  $fee,
+        public readonly ?bool   $congested,
     )
     {
     }

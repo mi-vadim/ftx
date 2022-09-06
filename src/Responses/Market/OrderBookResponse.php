@@ -9,8 +9,8 @@ use FTX\Responses\AbstractResponser;
 class OrderBookResponse extends AbstractResponser
 {
     private function __construct(
-        public readonly array $asks,
-        public readonly array $bids
+        public readonly ?array $asks,
+        public readonly ?array $bids
     )
     {
     }

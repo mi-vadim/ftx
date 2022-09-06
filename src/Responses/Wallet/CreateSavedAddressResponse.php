@@ -9,18 +9,18 @@ use FTX\Responses\AbstractResponser;
 class CreateSavedAddressResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly string $address,
-        public readonly string $coin,
-        public readonly bool   $fiat,
-        public readonly int    $id,
-        public readonly bool   $isPrimetrust,
-        public readonly bool   $isSwipeCard,
-        public readonly string $lastUsedAt,
-        public readonly string $name,
-        public readonly string $tag,
-        public readonly string $wallet,
-        public readonly bool   $whitelisted,
-        public readonly string $whitelistedAfter,
+        public readonly ?string $address,
+        public readonly ?string $coin,
+        public readonly ?bool   $fiat,
+        public readonly ?int    $id,
+        public readonly ?bool   $isPrimetrust,
+        public readonly ?bool   $isSwipeCard,
+        public readonly ?string $lastUsedAt,
+        public readonly ?string $name,
+        public readonly ?string $tag,
+        public readonly ?string $wallet,
+        public readonly ?bool   $whitelisted,
+        public readonly ?string $whitelistedAfter,
     )
     {
     }

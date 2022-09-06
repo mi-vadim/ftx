@@ -9,7 +9,7 @@ use FTX\Responses\AbstractResponser;
 class CancelOrderResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly string $status
+        public readonly ?string $status
     )
     {
     }

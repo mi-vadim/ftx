@@ -11,7 +11,7 @@ class FullTicketResponse extends AbstractResponser
     /** @param MessageResponse[] $messages */
     public function __construct(
         public readonly TicketResponse $ticket,
-        public readonly array          $messages,
+        public readonly ?array          $messages,
     )
     {
     }

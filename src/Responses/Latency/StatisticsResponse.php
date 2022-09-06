@@ -9,9 +9,9 @@ use FTX\Responses\AbstractResponser;
 class StatisticsResponse extends AbstractResponser
 {
     private function __construct(
-        public readonly bool  $bursty,
-        public readonly float $p50,
-        public readonly int   $requestCount,
+        public readonly ?bool  $bursty,
+        public readonly ?float $p50,
+        public readonly ?int   $requestCount,
     )
     {
     }

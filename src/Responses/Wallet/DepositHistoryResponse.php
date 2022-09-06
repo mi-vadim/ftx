@@ -9,17 +9,17 @@ use FTX\Responses\AbstractResponser;
 class DepositHistoryResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly int    $id,
-        public readonly string $coin,
+        public readonly ?int    $id,
+        public readonly ?string $coin,
         public readonly ?string $txid,
-        public readonly float $size,
-        public readonly float  $fee,
-        public readonly string $status,
-        public readonly string $time,
+        public readonly ?float $size,
+        public readonly ?float  $fee,
+        public readonly ?string $status,
+        public readonly ?string $time,
         public readonly ?string $sentTime,
         public readonly ?string $confirmedTime,
-        public readonly int    $confirmations,
-        public readonly string $notes,
+        public readonly ?int    $confirmations,
+        public readonly ?string $notes,
     )
     {
     }
@@ -27,16 +27,16 @@ class DepositHistoryResponse extends AbstractResponser
     public static function fromResponse(HttpResponse $response): static
     {
         return new self(
-            coin: $response->getAttribute('coin'),
-            confirmations: $response->getAttribute('confirmations'),
-            confirmedTime: $response->getAttribute('confirmedTime'),
-            fee: $response->getAttribute('fee'),
             id: $response->getAttribute('id'),
-            sentTime: $response->getAttribute('sentTime'),
+            coin: $response->getAttribute('coin'),
+            txid: $response->getAttribute('txid'),
             size: $response->getAttribute('size'),
+            fee: $response->getAttribute('fee'),
             status: $response->getAttribute('status'),
             time: $response->getAttribute('time'),
-            txid: $response->getAttribute('txid'),
+            sentTime: $response->getAttribute('sentTime'),
+            confirmedTime: $response->getAttribute('confirmedTime'),
+            confirmations: $response->getAttribute('confirmations'),
             notes: $response->getAttribute('notes'),
         );
     }
@@ -44,16 +44,16 @@ class DepositHistoryResponse extends AbstractResponser
     public static function fromArray(array $response): static
     {
         return new self(
-            coin: $response['coin'],
-            confirmations: $response['confirmations'] ?? 0,
-            confirmedTime: $response['confirmedTime'] ?? null,
-            fee: $response['fee'] ?? 0.0,
             id: $response['id'],
-            sentTime: $response['sentTime'] ?? null,
+            coin: $response['coin'],
+            txid: $response['txid'] ?? null,
             size: $response['size'],
+            fee: $response['fee'] ?? 0.0,
             status: $response['status'],
             time: $response['time'],
-            txid: $response['txid'] ?? null,
+            sentTime: $response['sentTime'] ?? null,
+            confirmedTime: $response['confirmedTime'] ?? null,
+            confirmations: $response['confirmations'] ?? 0,
             notes: $response['notes'] ?? '',
         );
     }

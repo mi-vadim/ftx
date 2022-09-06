@@ -9,11 +9,11 @@ use FTX\Responses\AbstractResponser;
 class HistoricalResponse extends AbstractResponser
 {
     private function __construct(
-        public readonly string $startTime,
-        public readonly float  $open,
-        public readonly float  $close,
-        public readonly float  $high,
-        public readonly float  $low,
+        public readonly ?string $startTime,
+        public readonly ?float  $open,
+        public readonly ?float  $close,
+        public readonly ?float  $high,
+        public readonly ?float  $low,
     )
     {
     }

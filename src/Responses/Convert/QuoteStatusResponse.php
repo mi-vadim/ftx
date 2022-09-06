@@ -9,16 +9,16 @@ use FTX\Responses\AbstractResponser;
 class QuoteStatusResponse extends AbstractResponser
 {
     private function __construct(
-        public readonly string $baseCoin,
-        public readonly float  $cost,
-        public readonly bool   $expired,
-        public readonly bool   $filled,
-        public readonly int    $id,
-        public readonly float  $price,
-        public readonly float  $proceeds,
-        public readonly string $quoteCoin,
-        public readonly string $side,
-        public readonly string $toCoin
+        public readonly ?string $baseCoin,
+        public readonly ?float  $cost,
+        public readonly ?bool   $expired,
+        public readonly ?bool   $filled,
+        public readonly ?int    $id,
+        public readonly ?float  $price,
+        public readonly ?float  $proceeds,
+        public readonly ?string $quoteCoin,
+        public readonly ?string $side,
+        public readonly ?string $toCoin
     )
     {
     }

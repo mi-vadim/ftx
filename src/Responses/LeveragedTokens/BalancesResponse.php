@@ -9,8 +9,8 @@ use FTX\Responses\AbstractResponser;
 class BalancesResponse extends AbstractResponser
 {
     private function __construct(
-        public readonly string $token,
-        public readonly float  $balance
+        public readonly ?string $token,
+        public readonly ?float  $balance
     )
     {
     }

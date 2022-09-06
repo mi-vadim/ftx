@@ -9,8 +9,8 @@ use FTX\Responses\AbstractResponser;
 class RequestSnapshot extends AbstractResponser
 {
     private function __construct(
-        public readonly bool $status,
-        public readonly float $result,
+        public readonly ?bool $status,
+        public readonly ?float $result,
     ){}
 
     public static function fromResponse(HttpResponse $response): static
