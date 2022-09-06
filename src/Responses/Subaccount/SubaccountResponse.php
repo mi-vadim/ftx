@@ -9,10 +9,10 @@ use FTX\Responses\AbstractResponser;
 class SubaccountResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly string $nickname,
-        public readonly bool   $deletable,
-        public readonly bool   $editable,
-        public readonly bool   $competition,
+        public readonly ?string $nickname,
+        public readonly ?bool   $deletable,
+        public readonly ?bool   $editable,
+        public readonly ?bool   $competition,
     )
     {
     }

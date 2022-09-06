@@ -9,15 +9,15 @@ use FTX\Responses\AbstractResponser;
 class TokenRedemptionResponse extends AbstractResponser
 {
     private function __construct(
-        public readonly int    $id,
-        public readonly string $token,
-        public readonly float  $size,
-        public readonly bool   $pending,
-        public readonly float  $price,
-        public readonly int    $proceeds,
-        public readonly float  $fee,
-        public readonly string $requestedAt,
-        public readonly string $fulfilledAt,
+        public readonly ?int    $id,
+        public readonly ?string $token,
+        public readonly ?float  $size,
+        public readonly ?bool   $pending,
+        public readonly ?float  $price,
+        public readonly ?int    $proceeds,
+        public readonly ?float  $fee,
+        public readonly ?string $requestedAt,
+        public readonly ?string $fulfilledAt,
     )
     {
     }

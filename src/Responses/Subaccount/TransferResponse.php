@@ -9,12 +9,12 @@ use FTX\Responses\AbstractResponser;
 class TransferResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly int    $id,
-        public readonly string $coin,
-        public readonly float  $size,
-        public readonly string $time,
-        public readonly string $notes,
-        public readonly string $status,
+        public readonly ?int    $id,
+        public readonly ?string $coin,
+        public readonly ?float  $size,
+        public readonly ?string $time,
+        public readonly ?string $notes,
+        public readonly ?string $status,
     )
     {
     }

@@ -9,15 +9,15 @@ use FTX\Responses\AbstractResponser;
 class TicketResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly int    $id,
-        public readonly string $title,
-        public readonly string $time,
-        public readonly string $category,
-        public readonly string $status,
-        public readonly string $error,
-        public readonly object $fiatDeposit,
-        public readonly object $depositHelpRequest,
-        public readonly string $autoExpireAt,
+        public readonly ?int    $id,
+        public readonly ?string $title,
+        public readonly ?string $time,
+        public readonly ?string $category,
+        public readonly ?string $status,
+        public readonly ?string $error,
+        public readonly ?object $fiatDeposit,
+        public readonly ?object $depositHelpRequest,
+        public readonly ?string $autoExpireAt,
     )
     {
     }

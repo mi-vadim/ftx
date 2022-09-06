@@ -9,23 +9,23 @@ use FTX\Responses\AbstractResponser;
 class CoinsResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly bool    $canDeposit,
-        public readonly bool    $canWithdraw,
-        public readonly bool    $hasTag,
-        public readonly string  $id,
-        public readonly string  $name,
+        public readonly ?bool    $canDeposit,
+        public readonly ?bool    $canWithdraw,
+        public readonly ?bool    $hasTag,
+        public readonly ?string  $id,
+        public readonly ?string  $name,
         public readonly ?string $bep2Asset,
-        public readonly bool    $canConvert,
-        public readonly bool    $collateral,
-        public readonly float   $collateralWeight,
+        public readonly ?bool    $canConvert,
+        public readonly ?bool    $collateral,
+        public readonly ?float   $collateralWeight,
         public readonly ?string $creditTo,
         public readonly ?string  $erc20Contract,
-        public readonly bool    $fiat,
-        public readonly bool    $isToken,
-        public readonly array   $methods,
+        public readonly ?bool    $fiat,
+        public readonly ?bool    $isToken,
+        public readonly ?array   $methods,
         public readonly ?string  $splMint,
         public readonly ?string  $trc20Contract,
-        public readonly bool    $usdFungible,
+        public readonly ?bool    $usdFungible,
     )
     {
     }

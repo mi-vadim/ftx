@@ -10,9 +10,9 @@ class DepositAddressResponse extends AbstractResponser
 {
 
     public function __construct(
-        public readonly string  $address,
+        public readonly ?string  $address,
         public readonly ?string $tag,
-        public readonly string $method,
+        public readonly ?string $method,
         public readonly ?string $coin,
     )
     {

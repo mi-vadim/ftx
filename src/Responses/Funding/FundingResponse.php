@@ -9,10 +9,10 @@ use FTX\Responses\AbstractResponser;
 class FundingResponse extends AbstractResponser
 {
     private function __construct(
-        public readonly string $future,
-        public readonly int    $id,
-        public readonly float  $payment,
-        public readonly string $time
+        public readonly ?string $future,
+        public readonly ?int    $id,
+        public readonly ?float  $payment,
+        public readonly ?string $time
     )
     {
     }

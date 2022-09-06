@@ -9,15 +9,15 @@ use FTX\Responses\AbstractResponser;
 class SavedAddressResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly string $address,
-        public readonly string $coin,
-        public readonly bool   $fiat,
-        public readonly int    $id,
-        public readonly bool   $isPrimetrust,
-        public readonly string $lastUsedAt,
-        public readonly string $tag,
-        public readonly bool   $whitelisted,
-        public readonly string $whitelistedAfter,
+        public readonly ?string $address,
+        public readonly ?string $coin,
+        public readonly ?bool   $fiat,
+        public readonly ?int    $id,
+        public readonly ?bool   $isPrimetrust,
+        public readonly ?string $lastUsedAt,
+        public readonly ?string $tag,
+        public readonly ?bool   $whitelisted,
+        public readonly ?string $whitelistedAfter,
     )
     {
     }

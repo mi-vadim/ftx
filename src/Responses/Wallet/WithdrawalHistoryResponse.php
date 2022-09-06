@@ -9,17 +9,17 @@ use FTX\Responses\AbstractResponser;
 class WithdrawalHistoryResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly string  $coin,
-        public readonly string  $address,
+        public readonly ?string  $coin,
+        public readonly ?string  $address,
         public readonly ?string $tag,
-        public readonly float   $fee,
-        public readonly int     $id,
-        public readonly float   $size,
-        public readonly string  $status,
-        public readonly string  $time,
-        public readonly string  $method,
-        public readonly string  $txid,
-        public readonly string  $notes,
+        public readonly ?float   $fee,
+        public readonly ?int     $id,
+        public readonly ?float   $size,
+        public readonly ?string  $status,
+        public readonly ?string  $time,
+        public readonly ?string  $method,
+        public readonly ?string  $txid,
+        public readonly ?string  $notes,
     )
     {
     }

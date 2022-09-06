@@ -9,11 +9,11 @@ use FTX\Responses\AbstractResponser;
 class LendingInfoResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly string $coin,
-        public readonly float  $lendable,
-        public readonly float  $locked,
-        public readonly float  $minRate,
-        public readonly float  $offered,
+        public readonly ?string $coin,
+        public readonly ?float  $lendable,
+        public readonly ?float  $locked,
+        public readonly ?float  $minRate,
+        public readonly ?float  $offered,
     )
     {
     }

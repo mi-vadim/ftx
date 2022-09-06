@@ -9,16 +9,16 @@ use FTX\Responses\AbstractResponser;
 class TokenCreationResponse extends AbstractResponser
 {
     public function __construct(
-        public readonly int    $id,
-        public readonly string $token,
-        public readonly int    $requestedSize,
-        public readonly bool   $pending,
-        public readonly int    $createdSize,
-        public readonly float  $price,
-        public readonly float  $cost,
-        public readonly float  $fee,
-        public readonly string $requestedAt,
-        public readonly string $fulfilledAt,
+        public readonly ?int    $id,
+        public readonly ?string $token,
+        public readonly ?int    $requestedSize,
+        public readonly ?bool   $pending,
+        public readonly ?int    $createdSize,
+        public readonly ?float  $price,
+        public readonly ?float  $cost,
+        public readonly ?float  $fee,
+        public readonly ?string $requestedAt,
+        public readonly ?string $fulfilledAt,
 
     )
     {
